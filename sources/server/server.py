@@ -43,7 +43,7 @@ class PBTServer:
 
     def __init__(self):
         self._listen_ip = '127.0.0.1'
-        self._listen_port = 8788
+        self._listen_port = 8787
 
         self._session_factory = make_db('sqlite:////tmp/pbt_test.db')
 

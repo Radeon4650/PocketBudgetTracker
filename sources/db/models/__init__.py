@@ -22,4 +22,4 @@ from tornado_sqlalchemy import declarative_base
 BASE_MODEL = declarative_base()
 
 from .user import User
-from .budget_period import BudgetPeriod
+from .budget import Budget

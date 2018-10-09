@@ -16,15 +16,21 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from sqlalchemy import Column, Integer, UnicodeText, ForeignKey
+from sqlalchemy import Column, Integer, UnicodeText, Date, ForeignKey
 from sqlalchemy.orm import relationship
 from . import BASE_MODEL
 
 
-class BudgetPeriod(BASE_MODEL):
-    __tablename__ = 'budget_periods'
+class Budget(BASE_MODEL):
+    __tablename__ = 'budgets'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    owner = relationship("User", back_populates="budget_periods")
+    owner = relationship("User", back_populates="budget")
     owner_id = Column(Integer, ForeignKey('users.id'))
 
-    #TODO: add fields: limits
+    category = Column(UnicodeText, nullable=True)
+    date = Column(Date, nullable=False)
+    title = Column(UnicodeText, nullable=False)
+    amount = Column(Integer, nullable=False)
+
+    # currency code according to ISO 4217
+    currency = Column(UnicodeText(3), nullable=False, default="USD")

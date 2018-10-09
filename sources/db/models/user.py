@@ -24,10 +24,9 @@ from . import BASE_MODEL
 class User(BASE_MODEL):
     __tablename__ = 'users'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    username = Column(UnicodeText(40), unique=True)
-    pwd_hash = Column(UnicodeText(80), unique=False)
+    login = Column(UnicodeText(40), unique=True)
+    pwd_hash = Column(UnicodeText(80), nullable=False, unique=False)
+    username = Column(UnicodeText(40), nullable=False, unique=False)
 
-    # currency code according to ISO 4217
-    currency = Column(UnicodeText(3), nullable=False, default="USD", unique=False)
-
-    budget_periods = relationship('BudgetPeriod', back_populates='owner')
+    user_pic = Column(UnicodeText, nullable=True, unique=False)
+    budget_id = relationship('Budget', back_populates='owner')

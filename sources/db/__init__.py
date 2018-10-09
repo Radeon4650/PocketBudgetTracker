@@ -28,6 +28,7 @@ class NativeCoroutinesRequestHandler(SessionMixin, RequestHandler):
         with self.make_session() as session:
             count = await as_future(session.query(User).count)
 
+
         self.write('{} users so far!'.format(count))
 
 
