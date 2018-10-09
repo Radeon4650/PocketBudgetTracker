@@ -1,7 +1,6 @@
 sqlalchemy
 tornado-sqlalchemy
 tornado
-pytest
 pylint
 yapf
 alembic
