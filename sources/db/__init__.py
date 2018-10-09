@@ -16,36 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from tornado.gen import coroutine
-from tornado.web import RequestHandler
-from tornado_sqlalchemy import as_future, SessionMixin
 
-from db.models import User
-
-
-class NativeCoroutinesRequestHandler(SessionMixin, RequestHandler):
-    async def get(self):
-        with self.make_session() as session:
-            count = await as_future(session.query(User).count)
-
-
-        self.write('{} users so far!'.format(count))
-
-
-class GenCoroutinesRequestHandler(SessionMixin, RequestHandler):
-    @coroutine
-    def get(self):
-        with self.make_session() as session:
-            count = yield as_future(session.query(User).count)
-
-        self.write('{} users so far!'.format(count))
-
-
-class SynchronousRequestHandler(SessionMixin, RequestHandler):
-    def get(self):
-        with self.make_session() as session:
-            count = session.query(User).count()
-
-        self.write('{} users so far!'.format(count))
-
+from db.models import User, Budget
 from tornado_sqlalchemy import make_session_factory as make_db

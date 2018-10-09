@@ -20,20 +20,13 @@ import logging
 
 import tornado
 from tornado.web import RequestHandler, Application
-from db import NativeCoroutinesRequestHandler, GenCoroutinesRequestHandler, SynchronousRequestHandler, make_db
+
+from db import make_db
+from .handlers import routes
 
 # pylint: disable=arguments-differ,abstract-method
 logger = logging.getLogger('server')  # pylint: disable=invalid-name
 logging.getLogger('tornado').setLevel(logging.WARNING)
-
-
-class MainHandler(RequestHandler):
-    """
-    Handler for the GET / request
-    """
-
-    def get(self):
-        self.write("<h3>Hello, Here is PocketBudgetTracker</h3>")
 
 
 class PBTServer:
@@ -46,13 +39,6 @@ class PBTServer:
         self._listen_port = 8788
 
         self._session_factory = make_db('sqlite:////tmp/pbt_test.db')
-
-        routes = [
-            (r'/', MainHandler),
-            (r'/native-coroutines', NativeCoroutinesRequestHandler),
-            (r'/gen-coroutines', GenCoroutinesRequestHandler),
-            (r'/sync', SynchronousRequestHandler),
-        ]
 
         self._app = Application(
             routes, session_factory=self._session_factory).listen(self._listen_port, self._listen_ip)

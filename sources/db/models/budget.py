@@ -34,3 +34,6 @@ class Budget(BASE_MODEL):
 
     # currency code according to ISO 4217
     currency = Column(UnicodeText(3), nullable=False, default="USD")
+
+    def __repr__(self):
+        return "{}: {} {} {} {}".format(self.id, self.title, str(self.date), self.amount, self.currency)
