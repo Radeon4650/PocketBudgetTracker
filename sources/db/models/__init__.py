@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Copyright © 2018 PocketBudgetTracker. All rights reserverd.
-Author: Approximator (alex@nls.la)
+Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,15 +16,10 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import logging
+from tornado_sqlalchemy import declarative_base
 
-logger = logging.getLogger('dev_script')
-logging.basicConfig(
-    format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%d-%m-%Y:%H:%M:%S',
-    level='INFO')
 
-from sources.server import PBTServer
+BASE_MODEL = declarative_base()
 
-if __name__ == '__main__':
-    PBTServer().run()
+from .user import User
+from .budget_period import BudgetPeriod

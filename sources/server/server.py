@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 Approximator. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserverd.
 Author: Approximator (alex@nls.la)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +20,7 @@ import logging
 
 import tornado
 from tornado.web import RequestHandler, Application
+from db import NativeCoroutinesRequestHandler, GenCoroutinesRequestHandler, SynchronousRequestHandler, make_db
 
 # pylint: disable=arguments-differ,abstract-method
 logger = logging.getLogger('server')  # pylint: disable=invalid-name
@@ -42,11 +43,16 @@ class PBTServer:
 
     def __init__(self):
         self._listen_ip = '127.0.0.1'
-        self._listen_port = 8787
-        # self._session_factory = make_session_factory('DB connection string')
-        self._session_factory = None
+        self._listen_port = 8788
 
-        routes = [(r'/', MainHandler)]
+        self._session_factory = make_db('sqlite:////tmp/pbt_test.db')
+
+        routes = [
+            (r'/', MainHandler),
+            (r'/native-coroutines', NativeCoroutinesRequestHandler),
+            (r'/gen-coroutines', GenCoroutinesRequestHandler),
+            (r'/sync', SynchronousRequestHandler),
+        ]
 
         self._app = Application(
             routes, session_factory=self._session_factory).listen(self._listen_port, self._listen_ip)

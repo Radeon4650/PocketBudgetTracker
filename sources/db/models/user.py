@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 Copyright © 2018 PocketBudgetTracker. All rights reserverd.
-Author: Approximator (alex@nls.la)
+Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -16,15 +16,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import logging
+from sqlalchemy import Column, Integer, UnicodeText
+from sqlalchemy.orm import relationship
+from . import BASE_MODEL
 
-logger = logging.getLogger('dev_script')
-logging.basicConfig(
-    format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%d-%m-%Y:%H:%M:%S',
-    level='INFO')
 
-from sources.server import PBTServer
+class User(BASE_MODEL):
+    __tablename__ = 'users'
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    username = Column(UnicodeText(40), unique=True)
+    pwd_hash = Column(UnicodeText(80), unique=False)
 
-if __name__ == '__main__':
-    PBTServer().run()
+    # currency code according to ISO 4217
+    currency = Column(UnicodeText(3), nullable=False, default="USD", unique=False)
+
+    budget_periods = relationship('BudgetPeriod', back_populates='owner')
