@@ -29,4 +29,4 @@ class User(BASE_MODEL):
     username = Column(UnicodeText(40), nullable=False, unique=False)
 
     user_pic = Column(UnicodeText, nullable=True, unique=False)
-    budget_id = relationship('Budget', back_populates='owner')
+    budgets = relationship('Budget', back_populates='owner')

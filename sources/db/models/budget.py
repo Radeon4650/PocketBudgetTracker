@@ -24,7 +24,7 @@ from . import BASE_MODEL
 class Budget(BASE_MODEL):
     __tablename__ = 'budgets'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    owner = relationship("User", back_populates="budget")
+    owner = relationship("User", back_populates="budgets")
     owner_id = Column(Integer, ForeignKey('users.id'))
 
     category = Column(UnicodeText, nullable=True)

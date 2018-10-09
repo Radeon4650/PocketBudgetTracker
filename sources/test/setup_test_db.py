@@ -16,9 +16,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import datetime
 from tornado_sqlalchemy import make_session_factory
-from db.models import BASE_MODEL
+from db.models import BASE_MODEL, User, Budget
 
 
 session_factory = make_session_factory('sqlite:////tmp/pbt_test.db')
 BASE_MODEL.metadata.create_all(session_factory.engine)
+
+session = session_factory.make_session()
+
+new_user = User(login='test_user', pwd_hash='test_pwd', username='test', user_pic='/some/pic')
+new_budget = Budget(owner=new_user, category='category', date=datetime.date.today(),
+                    title='something', amount=10, currency='UAH')
+
+session.add(new_user)
+session.commit()
+
