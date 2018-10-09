@@ -24,7 +24,7 @@ logging.basicConfig(
     datefmt='%d-%m-%Y:%H:%M:%S',
     level='INFO')
 
-from PocketBudgetTracker.server.server import PBTServer
+from sources.server import PBTServer
 
 if __name__ == '__main__':
     PBTServer().run()
