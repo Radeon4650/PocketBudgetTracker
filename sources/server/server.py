@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 Approximator. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserverd.
 Author: Approximator (alex@nls.la)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,18 +21,12 @@ import logging
 import tornado
 from tornado.web import RequestHandler, Application
 
+from db import make_db
+from .handlers import routes
+
 # pylint: disable=arguments-differ,abstract-method
 logger = logging.getLogger('server')  # pylint: disable=invalid-name
 logging.getLogger('tornado').setLevel(logging.WARNING)
-
-
-class MainHandler(RequestHandler):
-    """
-    Handler for the GET / request
-    """
-
-    def get(self):
-        self.write("<h3>Hello, Here is PocketBudgetTracker</h3>")
 
 
 class PBTServer:
@@ -40,16 +34,14 @@ class PBTServer:
     Server
     """
 
-    def __init__(self):
-        self._listen_ip = '127.0.0.1'
-        self._listen_port = 8787
-        # self._session_factory = make_session_factory('DB connection string')
-        self._session_factory = None
+    def __init__(self, ip, port, db_path):
+        self._listen_ip = ip
+        self._listen_port = port
 
-        routes = [(r'/', MainHandler)]
+        self._session_factory = make_db(db_path)
 
-        self._app = Application(
-            routes, session_factory=self._session_factory).listen(self._listen_port, self._listen_ip)
+        self._app = Application(routes, session_factory=self._session_factory)
+        self._app.listen(self._listen_port, self._listen_ip)
 
     def run(self):
         """

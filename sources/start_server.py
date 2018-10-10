@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 Approximator. All rights reserverd.
-Author: Approximator (alex@nls.la)
+Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Authors: Approximator (alex@nls.la)
+         Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -24,7 +25,14 @@ logging.basicConfig(
     datefmt='%d-%m-%Y:%H:%M:%S',
     level='INFO')
 
-from sources.server import PBTServer
+from server import PBTServer
 
 if __name__ == '__main__':
-    PBTServer().run()
+
+    # TODO: implement loading settings from local config file
+    pbt_server = PBTServer(
+        ip='127.0.0.1',
+        port=8788,
+        db_path='sqlite:////tmp/pbt_test.db'
+    )
+    pbt_server.run()
