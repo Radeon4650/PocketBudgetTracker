@@ -34,14 +34,14 @@ class PBTServer:
     Server
     """
 
-    def __init__(self):
-        self._listen_ip = '127.0.0.1'
-        self._listen_port = 8788
+    def __init__(self, ip, port, db_path):
+        self._listen_ip = ip
+        self._listen_port = port
 
-        self._session_factory = make_db('sqlite:////tmp/pbt_test.db')
+        self._session_factory = make_db(db_path)
 
-        self._app = Application(
-            routes, session_factory=self._session_factory).listen(self._listen_port, self._listen_ip)
+        self._app = Application(routes, session_factory=self._session_factory)
+        self._app.listen(self._listen_port, self._listen_ip)
 
     def run(self):
         """
