@@ -27,8 +27,9 @@ BASE_MODEL.metadata.create_all(session_factory.engine)
 session = session_factory.make_session()
 
 new_user = User(login='test_user', pwd_hash='test_pwd', username='test', user_pic='/some/pic')
-new_budget = Budget(owner=new_user, category='category', date=datetime.date.today(),
-                    title='something', amount=10, currency='UAH')
+for i in range(3):
+    new_budget = Budget(owner=new_user, category='category'+str(i), date=datetime.date.today(),
+                    title=str(i)+'something', amount=i*10, currency='UAH')
 
 session.add(new_user)
 session.commit()
