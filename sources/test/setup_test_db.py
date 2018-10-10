@@ -18,7 +18,7 @@ limitations under the License.
 
 import datetime
 from tornado_sqlalchemy import make_session_factory
-from db.models import BASE_MODEL, User, Budget
+from sources.db.models import BASE_MODEL, User, Budget
 
 
 session_factory = make_session_factory('sqlite:////tmp/pbt_test.db')
