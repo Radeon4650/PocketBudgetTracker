@@ -16,11 +16,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import os
 from tornado.web import RequestHandler
 from tornado_sqlalchemy import SessionMixin
 from tornado import template
 
 from db.models import User, Budget
+
+
+templates_path = os.path.join(os.path.dirname(__file__), "templates")
+loader = template.Loader(templates_path)
 
 
 class MainHandler(RequestHandler):
@@ -36,7 +41,6 @@ class BudgetRequestHandler(SessionMixin, RequestHandler):
     def get(self):
         with self.make_session() as session:
             current_user = session.query(User).first()
-            loader = template.Loader("server/templates/")
             self.write(loader.load("budget.html").generate(budgets=current_user.budgets, user=current_user.username))
 
 
