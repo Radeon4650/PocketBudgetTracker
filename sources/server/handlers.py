@@ -37,7 +37,7 @@ class BudgetRequestHandler(SessionMixin, RequestHandler):
         with self.make_session() as session:
             current_user = session.query(User).first()
             loader = template.Loader("server/templates/")
-            self.write(loader.load("budget.html").generate(budgets=current_user.budgets))
+            self.write(loader.load("budget.html").generate(budgets=current_user.budgets, user=current_user.username))
 
 
 routes = [

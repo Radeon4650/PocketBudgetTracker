@@ -3,10 +3,11 @@
 <html>
   <head>
     <title>{% block title %}Budget Summary{% end %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">
   </head>
-  <body>
-    <h3>Hello world, this is budget html </h3>
-    <table border="1">
+  <body style="padding: 35px;">
+    <h3>Hello {{ user }}, this is your budget</h3>
+    <table class="ui table">
         <caption>Budget table</caption>
         <tr>
             <th>Number</th>
