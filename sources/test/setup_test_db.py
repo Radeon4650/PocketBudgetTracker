@@ -16,21 +16,47 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import datetime
+import hashlib
 from tornado_sqlalchemy import make_session_factory
-from db.models import BASE_MODEL, User, Budget
+from sources.db.models import BASE_MODEL, User, Budget
+from faker import Faker
 
-
+fake = Faker('ru_RU')
 session_factory = make_session_factory('sqlite:////tmp/pbt_test.db')
 BASE_MODEL.metadata.create_all(session_factory.engine)
 
 session = session_factory.make_session()
 
-new_user = User(login='test_user', pwd_hash='test_pwd', username='test', user_pic='/some/pic')
-for i in range(3):
-    new_budget = Budget(owner=new_user, category='category'+str(i), date=datetime.date.today(),
-                    title=str(i)+'something', amount=i*10, currency='UAH')
+def make_user():
+    return User(
+        login=fake.user_name(),
+        pwd_hash=hashlib.sha256(fake.password().encode()).hexdigest(),
+        username=fake.name(),
+        user_pic=fake.image_url())
 
-session.add(new_user)
+
+def make_budget(owner):
+    categories = {'Food': ['Chicken breast', 'Bread', 'Salad', 'Milk', 'Chocolate', 'Sausage', 'Apples', 'Cake'],
+                  'Home': ['Soap', 'Shampoo', 'Flower', 'Dinnerware', 'Trash bags'],
+                  'Clothes': ['Jacket', 'Skirt', 'Sneakers', 'Hat', 'Blouse', 'Sweater'],
+                  'Transport': ['Bus ticket', 'Gasoline 20 l', 'Car wash', 'Parking 8 h', 'Train ticket'],
+                  'Entertainment': ['Restaurant', 'Cafe', 'Cinema', 'Gym membership'],
+                  'Bills': ['Electricity', 'Cold water', 'Hot water', 'Internet', 'Heating', 'Mobile phone'],
+                  'Other spendings': ['Gift for friend', 'Haircut', 'Manicure']}
+
+    random_cat = fake.random_element(categories.keys())
+    random_title = fake.random_element(categories[random_cat])
+    Budget(
+        owner=owner,
+        category=random_cat,
+        date=fake.date_this_year(),
+        title=random_title,
+        amount=fake.random_int(min=1, max=2000),
+        currency="UAH")
+
+users = [make_user() for _ in range(10)]
+
+for new_user in users:
+    budgets = [make_budget(new_user) for _ in range(fake.random_int(max=100))]
+    session.add(new_user)
 session.commit()
-

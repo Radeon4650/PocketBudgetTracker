@@ -17,5 +17,5 @@ limitations under the License.
 """
 
 
-from db.models import User, Budget
+from .models import User, Budget
 from tornado_sqlalchemy import make_session_factory as make_db
