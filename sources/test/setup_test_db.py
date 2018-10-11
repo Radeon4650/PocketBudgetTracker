@@ -45,9 +45,8 @@ def make_budget(owner):
                   'Bills': ['Electricity', 'Cold water', 'Hot water', 'Internet', 'Heating', 'Mobile phone'],
                   'Other spendings': ['Gift for friend', 'Haircut', 'Manicure']}
 
-    random_cat = list(categories.keys())[fake.random_int(max=len(categories.keys())-1)]
-    titles = categories[random_cat]
-    random_title = titles[fake.random_int(max=len(titles)-1)]
+    random_cat = fake.random_element(categories.keys())
+    random_title = fake.random_element(categories[random_cat])
     Budget(
         owner=owner,
         category=random_cat,
