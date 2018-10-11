@@ -18,6 +18,7 @@ limitations under the License.
 
 from tornado.web import RequestHandler
 from tornado_sqlalchemy import SessionMixin
+from tornado import template
 
 from db.models import User, Budget
 
@@ -35,12 +36,8 @@ class BudgetRequestHandler(SessionMixin, RequestHandler):
     def get(self):
         with self.make_session() as session:
             current_user = session.query(User).first()
-            items_str = ""
-            for item in current_user.budgets:
-                items_str += str(item)
-
-            self.write("<h3>Hello '{}', there is {} items in you budget: </h3>"
-                       "<br> {}".format(current_user.username, len(current_user.budgets), items_str))
+            loader = template.Loader("server/templates/")
+            self.write(loader.load("budget.html").generate(budgets=current_user.budgets, user=current_user.username))
 
 
 routes = [

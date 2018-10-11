@@ -27,7 +27,6 @@ BASE_MODEL.metadata.create_all(session_factory.engine)
 
 session = session_factory.make_session()
 
-
 def make_user():
     return User(
         login=fake.user_name(),
