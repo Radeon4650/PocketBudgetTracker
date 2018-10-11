@@ -16,10 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import os
+import sys
 import hashlib
 from tornado_sqlalchemy import make_session_factory
-from sources.db.models import BASE_MODEL, User, Budget
 from faker import Faker
+
+src_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
+sys.path.append(src_root)
+from db.models import BASE_MODEL, User, Budget
 
 fake = Faker('ru_RU')
 session_factory = make_session_factory('sqlite:////tmp/pbt_test.db')
