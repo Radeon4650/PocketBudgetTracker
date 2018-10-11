@@ -37,13 +37,24 @@ def make_user():
 
 
 def make_budget(owner):
+    categories = {'Food': ['Chicken breast', 'Bread', 'Salad', 'Milk', 'Chocolate', 'Sausage', 'Apples', 'Cake'],
+                  'Home': ['Soap', 'Shampoo', 'Flower', 'Dinnerware', 'Trash bags'],
+                  'Clothes': ['Jacket', 'Skirt', 'Sneakers', 'Hat', 'Blouse', 'Sweater'],
+                  'Transport': ['Bus ticket', 'Gasoline 20 l', 'Car wash', 'Parking 8 h', 'Train ticket'],
+                  'Entertainment': ['Restaurant', 'Cafe', 'Cinema', 'Gym membership'],
+                  'Bills': ['Electricity', 'Cold water', 'Hot water', 'Internet', 'Heating', 'Mobile phone'],
+                  'Other spendings': ['Gift for friend', 'Haircut', 'Manicure']}
+
+    random_cat = list(categories.keys())[fake.random_int(max=len(categories.keys())-1)]
+    titles = categories[random_cat]
+    random_title = titles[fake.random_int(max=len(titles)-1)]
     Budget(
         owner=owner,
-        category=fake.word(),
+        category=random_cat,
         date=fake.date_this_year(),
-        title=fake.catch_phrase(),
-        amount=fake.random_int(),
-        currency=fake.currency_code())
+        title=random_title,
+        amount=fake.random_int(min=1, max=2000),
+        currency="UAH")
 
 users = [make_user() for _ in range(10)]
 
