@@ -35,12 +35,14 @@ session = session_factory.make_session()
 
 def make_user():
     name = fake.name()
-    return User(
+    user = User(
         login=fake.user_name(),
         pwd_hash=password_hash(name, fake.password()),
         token=bcrypt.gensalt().decode(),
         username=name,
         user_pic=fake.image_url())
+    session.add(user)
+    return user
 
 
 def make_budget(owner):
@@ -60,16 +62,18 @@ def make_budget(owner):
         category = Category(name=random_cat, owner=owner)
         session.add(category)
 
-    Budget(
-        category=category,
-        date=fake.date_this_year(),
-        title=random_title,
-        amount=fake.random_int(min=1, max=2000),
-        currency="UAH")
+    budget = Budget(
+            category=category,
+            date=fake.date_this_year(),
+            title=random_title,
+            amount=fake.random_int(min=1, max=2000),
+            currency="UAH")
+    session.add(budget)
+    return budget
+
 
 users = [make_user() for _ in range(10)]
 
 for new_user in users:
     budgets = [make_budget(new_user) for _ in range(fake.random_int(max=100))]
-    session.add(new_user)
 session.commit()
