@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Pocket budget tracker{% end %}</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">
 </head>
   <body>
     <div id="body">
       <div id="header">
         <div style="float:right">
           {% if current_user %}
-            <a href="/add">Add new budget</a>
             <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
           {% else %}
             {% raw _('<a href="%(url)s">Sign in</a> to manage you budget') % {"url": "/auth/login?next=" + url_escape(request.uri)} %}
