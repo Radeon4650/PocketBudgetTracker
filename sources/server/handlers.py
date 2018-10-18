@@ -22,7 +22,7 @@ from tornado_sqlalchemy import SessionMixin
 import bcrypt
 import datetime
 
-from db.models import User, Budget, password_hash
+from db.models import User, Budget, Category, password_hash
 
 
 class BaseHandler(SessionMixin, RequestHandler):
@@ -56,9 +56,14 @@ class BudgetRequestHandler(BaseHandler):
 
     @authenticated
     def post(self):
+        category_name = self.get_argument("category")
+        category = self.session.query(Category).filter_by(owner=self.current_user,
+                                                          name=category_name).first()
+        if not category:
+            category = Category(name=category_name, owner=self.current_user)
+
         new_item = Budget(
-            owner=self.current_user,
-            category=self.get_argument("category"),
+            category=category,
             date=datetime.date.today(),
             title=self.get_argument("title"),
             amount=self.get_argument("amount"),

@@ -20,13 +20,12 @@ import os
 import sys
 import bcrypt
 
-from tornado_sqlalchemy import make_session_factory
 from faker import Faker
 
 src_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(src_root)
 from db import make_db
-from db.models import User, password_hash, Budget
+from db.models import User, password_hash, Budget, Category
 
 fake = Faker('ru_RU')
 
@@ -55,9 +54,14 @@ def make_budget(owner):
 
     random_cat = fake.random_element(categories.keys())
     random_title = fake.random_element(categories[random_cat])
+
+    category = session.query(Category).filter_by(owner=owner, name=random_cat).first()
+    if not category:
+        category = Category(name=random_cat, owner=owner)
+        session.add(category)
+
     Budget(
-        owner=owner,
-        category=random_cat,
+        category=category,
         date=fake.date_this_year(),
         title=random_title,
         amount=fake.random_int(min=1, max=2000),

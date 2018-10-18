@@ -32,7 +32,7 @@ class User(BASE_MODEL):
     username = Column(UnicodeText(40), nullable=False, unique=False)
 
     user_pic = Column(UnicodeText, nullable=True, unique=False)
-    budgets = relationship('Budget', back_populates='owner')
+    categories = relationship('Category', back_populates='owner')
 
 
 def password_hash(email, password):

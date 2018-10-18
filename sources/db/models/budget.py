@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from sqlalchemy import Column, Integer, UnicodeText, Date, ForeignKey
+from sqlalchemy import Column, Integer, UnicodeText, Date, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from . import BASE_MODEL
 
@@ -24,10 +24,10 @@ from . import BASE_MODEL
 class Budget(BASE_MODEL):
     __tablename__ = 'budgets'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    owner = relationship("User", back_populates="budgets")
-    owner_id = Column(Integer, ForeignKey('users.id'))
 
-    category = Column(UnicodeText, nullable=True)
+    category = relationship("Category", back_populates="budgets")
+    category_id = Column(Integer, ForeignKey('categories.id'))
+
     date = Column(Date, nullable=False)
     title = Column(UnicodeText, nullable=False)
     amount = Column(Integer, nullable=False)
@@ -37,3 +37,18 @@ class Budget(BASE_MODEL):
 
     def __repr__(self):
         return "{}: {} {} {} {}".format(self.id, self.title, str(self.date), self.amount, self.currency)
+
+
+class Category(BASE_MODEL):
+    __tablename__ = 'categories'
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    name = Column(UnicodeText, nullable=False)
+
+    owner = relationship("User", back_populates="categories")
+    owner_id = Column(Integer, ForeignKey('users.id'))
+
+    budgets = relationship('Budget', back_populates='category')
+
+
+    # unique constraint for group of owner_id and name
+    __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'), )
