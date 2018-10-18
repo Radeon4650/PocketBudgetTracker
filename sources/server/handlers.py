@@ -37,7 +37,7 @@ class BaseHandler(SessionMixin, RequestHandler):
         return self.session.query(User).filter_by(token=user_token.decode()).first()
 
     def has_users(self):
-        return self.session.query(User).first() is not None
+        return self.session.query(User).count()
 
 
 class MainHandler(BaseHandler):
