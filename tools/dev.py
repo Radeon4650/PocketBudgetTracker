@@ -77,10 +77,10 @@ def main():
     parser_run = subparsers.add_parser('run')
     parser_run.add_argument('what_to_run', choices=['lint', 'yapf'])
     parser_run.add_argument('--directory', required=False, default=os.path.join(REPO_DIR, 'sources'))
-    parser_run.set_defaults(func=run)
+    # parser_run.set_defaults(func=run)
 
     args = parser.parse_args()
-    args.func(args)
+    run(args)
     return 0
 
 

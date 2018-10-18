@@ -32,7 +32,7 @@ fake = Faker('ru_RU')
 session_factory = make_db('sqlite:////tmp/pbt_test.db')
 session = session_factory.make_session()
 
-
+# pylint: disable=no-member
 def make_user():
     name = fake.name()
     user = User(
