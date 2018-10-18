@@ -16,11 +16,24 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import sqlalchemy as sa
 
-from .models import User, Budget
 from tornado_sqlalchemy import make_session_factory
+from .models import User, Budget, BASE_MODEL
+
+import logging
+logger = logging.getLogger('server_db')
 
 
 def make_db(db_uri):
     session_factory = make_session_factory(db_uri)
+    fill_db_if_empty(session_factory.engine)
     return session_factory
+
+
+def fill_db_if_empty(engine):
+    table_names = sa.inspect(engine).get_table_names()
+    is_empty = table_names == []
+    if is_empty:
+        logger.info('Database is empty, creating tables.')
+        BASE_MODEL.metadata.create_all(engine)

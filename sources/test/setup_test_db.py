@@ -25,13 +25,14 @@ from faker import Faker
 
 src_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(src_root)
-from db.models import BASE_MODEL, User, password_hash, Budget
+from db import make_db
+from db.models import User, password_hash, Budget
 
 fake = Faker('ru_RU')
-session_factory = make_session_factory('sqlite:////tmp/pbt_test.db')
-BASE_MODEL.metadata.create_all(session_factory.engine)
 
+session_factory = make_db('sqlite:////tmp/pbt_test.db')
 session = session_factory.make_session()
+
 
 def make_user():
     name = fake.name()
