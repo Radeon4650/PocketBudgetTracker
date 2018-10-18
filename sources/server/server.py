@@ -18,10 +18,11 @@ limitations under the License.
 
 import logging
 
+import os
 import tornado
-from tornado.web import RequestHandler, Application
+from tornado.web import Application
 
-from db import make_db
+import db
 from .handlers import routes
 
 # pylint: disable=arguments-differ,abstract-method
@@ -38,9 +39,13 @@ class PBTServer:
         self._listen_ip = ip
         self._listen_port = port
 
-        self._session_factory = make_db(db_path)
+        self._session_factory = db.make_db(db_path)
 
-        self._app = Application(routes, session_factory=self._session_factory)
+        self._app = Application(routes,
+                                session_factory=self._session_factory,
+                                template_path=os.path.join(os.path.dirname(__file__), "templates"),
+                                login_url="/auth/login",
+                                cookie_secret="pbt_debug_secret")
         self._app.listen(self._listen_port, self._listen_ip)
 
     def run(self):

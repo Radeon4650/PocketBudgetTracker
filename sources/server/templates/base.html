@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Pocket budget tracker{% end %}</title>
+</head>
+  <body>
+    <div id="body">
+      <div id="header">
+        <div style="float:right">
+          {% if current_user %}
+            <a href="/add">Add new budget</a>
+            <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
+          {% else %}
+            {% raw _('<a href="%(url)s">Sign in</a> to manage you budget') % {"url": "/auth/login?next=" + url_escape(request.uri)} %}
+            {% raw _('<a href="%(url)s">Sign up</a>') % {"url": "/auth/create?next=" + url_escape(request.uri)} %}
+          {% end %}
+        </div>
+        <h1><a href="/">Pocket budget tracker</a></h1>
+      </div>
+      <div id="content">{% block body %}{% end %}</div>
+    </div>
+    {% block bottom %}{% end %}
+    </body>
+</html>

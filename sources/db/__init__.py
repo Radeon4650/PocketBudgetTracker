@@ -18,4 +18,9 @@ limitations under the License.
 
 
 from .models import User, Budget
-from tornado_sqlalchemy import make_session_factory as make_db
+from tornado_sqlalchemy import make_session_factory
+
+
+def make_db(db_uri):
+    session_factory = make_session_factory(db_uri)
+    return session_factory

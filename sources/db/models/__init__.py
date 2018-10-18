@@ -21,5 +21,5 @@ from tornado_sqlalchemy import declarative_base
 
 BASE_MODEL = declarative_base()
 
-from .user import User
+from .user import User, password_hash
 from .budget import Budget

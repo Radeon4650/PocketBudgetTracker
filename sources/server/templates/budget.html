@@ -1,32 +1,37 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-  <head>
-    <title>{% block title %}Budget Summary{% end %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">
-  </head>
-  <body style="padding: 35px;">
-    <h3>Hello {{ user }}, this is your budget</h3>
-    <table class="ui table">
-        <caption>Budget table</caption>
-        <tr>
-            <th>Number</th>
-            <th>Category</th>
-            <th>Date</th>
-            <th>Title</th>
-            <th>Amount</th>
-        </tr>
-        {% for budget in budgets %}
-            {% block budget %}
-                <tr>
-                    <td>{{ budget.id }}</td>
-                    <td>{{ budget.category }}</td>
-                    <td>{{ budget.date }}</td>
-                    <td>{{ budget.title }}</td>
-                    <td>{{ str(budget.amount) + ' ' + budget.currency}}</td>
-                </tr>
+{% extends "base.html" %}
+
+{% block body %}
+  <div style="padding: 35px;">
+      <h3>Hello {{ current_user.username }}, this is your budget</h3>
+        <table class="ui table">
+            <caption>Budget table</caption>
+            <tr>
+                <th>Number</th>
+                <th>Category</th>
+                <th>Date</th>
+                <th>Title</th>
+                <th>Amount</th>
+            </tr>
+            {% for budget in current_user.budgets %}
+                {% block budget %}
+                    <tr>
+                        <td>{{ budget.id }}</td>
+                        <td>{{ budget.category }}</td>
+                        <td>{{ budget.date }}</td>
+                        <td>{{ budget.title }}</td>
+                        <td>{{ str(budget.amount) + ' ' + budget.currency}}</td>
+                    </tr>
+                {% end %}
             {% end %}
-        {% end %}
-    </table>
-  </body>
-</html>
+        </table>
+  </div>
+  <div>
+      <form action="/budget" method="POST">
+          Category: <input name="category" type="text"><br>
+          Title: <input name="title" type="text"><br>
+          Amount: <input name="amount" type="text"><br>
+          {% module xsrf_form_html() %}
+          <input type="submit">
+     </form>
+  </div>
+{% end %}
