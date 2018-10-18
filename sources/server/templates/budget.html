@@ -12,16 +12,18 @@
                 <th>Title</th>
                 <th>Amount</th>
             </tr>
+            {% set i = 1 %}
             {% for budget in current_user.budgets %}
                 {% block budget %}
                     <tr>
-                        <td>{{ budget.id }}</td>
+                        <td>{{ i }}</td>
                         <td>{{ budget.category }}</td>
                         <td>{{ budget.date }}</td>
                         <td>{{ budget.title }}</td>
                         <td>{{ str(budget.amount) + ' ' + budget.currency}}</td>
                     </tr>
                 {% end %}
+                {% set i += 1 %}
             {% end %}
         </table>
   </div>
