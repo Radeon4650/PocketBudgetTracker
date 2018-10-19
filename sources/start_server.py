@@ -29,7 +29,6 @@ from server import PBTServer
 
 if __name__ == '__main__':
 
-    # TODO: implement loading settings from local config file
     pbt_server = PBTServer(
         ip='127.0.0.1',
         port=8788,

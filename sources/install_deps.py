@@ -36,9 +36,10 @@ class Installer(object):
         print('Python location prefix is {}'.format(self.python_path))
         self.upgrade = upgrade
 
-    def _pip_install(self, install_args=[]):
+    def _pip_install(self, install_args=None):
         args = [self.pip_path, 'install']
-        args += install_args
+        if install_args is not None:
+            args += install_args
 
         if self.upgrade:
             args.append('--upgrade')

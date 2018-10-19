@@ -26,6 +26,9 @@ from db.models import User, Budget, Category, password_hash
 
 
 class BaseHandler(SessionMixin, RequestHandler):
+    def data_received(self, chunk):
+        pass
+
     def prepare(self):
         self.make_session()
 
@@ -45,17 +48,17 @@ class MainHandler(BaseHandler):
     Handler for the GET / request
     """
 
-    def get(self):
+    def get(self, *args, **kwargs):
         self.redirect("/budget")
 
 
 class BudgetRequestHandler(BaseHandler):
     @authenticated
-    def get(self):
+    def get(self, *args, **kwargs):
         self.render("budget.html")
 
     @authenticated
-    def post(self):
+    def post(self, *args, **kwargs):
         category_name = self.get_argument("category")
         category = self.session.query(Category).filter_by(owner=self.current_user,
                                                           name=category_name).first()
@@ -73,14 +76,14 @@ class BudgetRequestHandler(BaseHandler):
 
 
 class AuthLoginHandler(BaseHandler):
-    def get(self):
+    def get(self, *args, **kwargs):
         # If there are no users, redirect to the account creation page.
         if not self.has_users():
             self.redirect("/auth/create")
         else:
             self.render("login.html", error=None)
 
-    def post(self):
+    def post(self, *args, **kwargs):
         email = self.get_argument("email")
         pwd_hash = password_hash(self.get_argument("email"), self.get_argument("password"))
 
@@ -92,11 +95,11 @@ class AuthLoginHandler(BaseHandler):
             self.redirect(self.get_argument("next", "/"))
 
 
-class AuthCreateHandler(SessionMixin, RequestHandler):
-    def get(self):
+class AuthCreateHandler(BaseHandler):
+    def get(self, *args, **kwargs):
         self.render("create_user.html")
 
-    def post(self):
+    def post(self, *args, **kwargs):
         user_email = self.get_argument("email")
         user_passwd = self.get_argument("password")
         if not user_email or not user_passwd:
@@ -117,8 +120,8 @@ class AuthCreateHandler(SessionMixin, RequestHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
-class AuthLogoutHandler(RequestHandler):
-    def get(self):
+class AuthLogoutHandler(BaseHandler):
+    def get(self, *args, **kwargs):
         self.clear_cookie("user_token")
         self.redirect(self.get_argument("next", "/"))
 
