@@ -16,6 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import hashlib
 from sqlalchemy import Column, Integer, UnicodeText
 from sqlalchemy.orm import relationship
 from . import BASE_MODEL
@@ -24,9 +25,15 @@ from . import BASE_MODEL
 class User(BASE_MODEL):
     __tablename__ = 'users'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    token = Column(UnicodeText(150), unique=True, nullable=False)
+
     login = Column(UnicodeText(40), unique=True)
     pwd_hash = Column(UnicodeText(80), nullable=False, unique=False)
     username = Column(UnicodeText(40), nullable=False, unique=False)
 
     user_pic = Column(UnicodeText, nullable=True, unique=False)
-    budgets = relationship('Budget', back_populates='owner')
+    categories = relationship('Category', back_populates='owner')
+
+
+def password_hash(email, password):
+    return hashlib.sha256(email.encode() + password.encode()).hexdigest()

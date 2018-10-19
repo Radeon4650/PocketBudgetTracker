@@ -15,29 +15,34 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-
+# pylint: disable=all
 import os
 import sys
-import hashlib
-from tornado_sqlalchemy import make_session_factory
+import bcrypt
+
 from faker import Faker
 
 src_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(src_root)
-from db.models import BASE_MODEL, User, Budget
+from db import make_db
+from db.models import User, password_hash, Budget, Category
 
 fake = Faker('ru_RU')
-session_factory = make_session_factory('sqlite:////tmp/pbt_test.db')
-BASE_MODEL.metadata.create_all(session_factory.engine)
 
+session_factory = make_db('sqlite:////tmp/pbt_test.db')
 session = session_factory.make_session()
 
+
 def make_user():
-    return User(
+    name = fake.name()
+    user = User(
         login=fake.user_name(),
-        pwd_hash=hashlib.sha256(fake.password().encode()).hexdigest(),
-        username=fake.name(),
+        pwd_hash=password_hash(name, fake.password()),
+        token=bcrypt.gensalt().decode(),
+        username=name,
         user_pic=fake.image_url())
+    session.add(user)
+    return user
 
 
 def make_budget(owner):
@@ -51,17 +56,24 @@ def make_budget(owner):
 
     random_cat = fake.random_element(categories.keys())
     random_title = fake.random_element(categories[random_cat])
-    Budget(
-        owner=owner,
-        category=random_cat,
-        date=fake.date_this_year(),
-        title=random_title,
-        amount=fake.random_int(min=1, max=2000),
-        currency="UAH")
+
+    category = session.query(Category).filter_by(owner=owner, name=random_cat).first()
+    if not category:
+        category = Category(name=random_cat, owner=owner)
+        session.add(category)
+
+    budget = Budget(
+            category=category,
+            date=fake.date_this_year(),
+            title=random_title,
+            amount=fake.random_int(min=1, max=2000),
+            currency="UAH")
+    session.add(budget)
+    return budget
+
 
 users = [make_user() for _ in range(10)]
 
 for new_user in users:
     budgets = [make_budget(new_user) for _ in range(fake.random_int(max=100))]
-    session.add(new_user)
 session.commit()
