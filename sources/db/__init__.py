@@ -15,13 +15,12 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
+import logging
 
 import sqlalchemy as sa
-
 from tornado_sqlalchemy import make_session_factory
 from .models import User, Budget, BASE_MODEL
 
-import logging
 logger = logging.getLogger('server_db')
 
 
