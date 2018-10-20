@@ -16,13 +16,13 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import datetime
+import bcrypt
+
 from tornado.web import RequestHandler, HTTPError, authenticated
 from tornado_sqlalchemy import SessionMixin
 
-import bcrypt
-import datetime
-
-from db.models import User, Budget, Category, password_hash
+from db import User, Budget, Category, password_hash
 
 
 class BaseHandler(SessionMixin, RequestHandler):

@@ -1,12 +1,14 @@
 language: python
 python:
-  - "3.5"
+  - "3.4"
   - "3.6"
+
+env:
+  - TEST_CMD="cd sources && PYTHONPATH=.. pytest -sv ./test/"
+  - TEST_CMD="./tools/dev.py run lint"
 
 install:
   - python3 ./sources/install_deps.py
 
 script:
-  - pip --version
-  - cd sources
-  - PYTHONPATH=.. pytest -sv ./test/
+  - bash -c "$TEST_CMD"

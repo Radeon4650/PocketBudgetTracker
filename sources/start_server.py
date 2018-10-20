@@ -19,13 +19,13 @@ limitations under the License.
 
 import logging
 
-logger = logging.getLogger('dev_script')
+from server import PBTServer
+
+logger = logging.getLogger('start_server')
 logging.basicConfig(
     format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
     datefmt='%d-%m-%Y:%H:%M:%S',
     level='INFO')
-
-from server import PBTServer
 
 if __name__ == '__main__':
 

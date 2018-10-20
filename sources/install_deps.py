@@ -17,18 +17,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-
 import os
 import os.path
 import subprocess
 import sys
 
-
 modules_dir = os.path.dirname(__file__)
 req_file_name = 'requirements.txt'
 
 
-class Installer(object):
+class Installer:
     python_path = os.path.dirname(sys.executable)
     pip_path = os.path.join(python_path, 'pip')
 

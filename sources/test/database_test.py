@@ -10,7 +10,7 @@ import bcrypt
 from pytest import fixture
 from faker import Faker
 from tornado_sqlalchemy import make_session_factory, SessionMixin
-from sources.db.models import BASE_MODEL, User, Budget
+from sources.db import BASE_MODEL, User, Budget
 
 fake = Faker('ru_RU')
 DB_FILE = "/tmp/pbt_test.sqlite"

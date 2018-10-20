@@ -49,6 +49,5 @@ class Category(BASE_MODEL):
 
     budgets = relationship('Budget', back_populates='category')
 
-
     # unique constraint for group of owner_id and name
-    __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'), )
+    __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'),)
