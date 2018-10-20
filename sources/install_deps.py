@@ -68,7 +68,7 @@ if __name__ == '__main__':
     installer = Installer(True)
 
     # Upgrade pip
-    # installer.install('pip')
+    installer.install('pip')
 
     # Install all modules dependencies
     installer.install_modules_deps()
