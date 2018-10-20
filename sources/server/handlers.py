@@ -22,7 +22,7 @@ import bcrypt
 from tornado.web import RequestHandler, HTTPError, authenticated
 from tornado_sqlalchemy import SessionMixin
 
-from db.models import User, Budget, Category, password_hash
+from db import User, Budget, Category, password_hash
 
 
 class BaseHandler(SessionMixin, RequestHandler):

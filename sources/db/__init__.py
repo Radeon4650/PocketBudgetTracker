@@ -19,7 +19,9 @@ import logging
 
 import sqlalchemy as sa
 from tornado_sqlalchemy import make_session_factory
-from .models import User, Budget, BASE_MODEL
+from .models import BASE_MODEL
+from .models.user import User, password_hash
+from .models.budget import Budget, Category
 
 logger = logging.getLogger('server_db')
 

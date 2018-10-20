@@ -16,11 +16,6 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-# pylint:disable=all
-# WTF is going on here???
 from tornado_sqlalchemy import declarative_base
 
 BASE_MODEL = declarative_base()
-
-from .user import User, password_hash
-from .budget import Budget, Category

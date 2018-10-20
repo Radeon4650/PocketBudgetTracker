@@ -24,8 +24,8 @@ from faker import Faker
 
 src_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(src_root)
-from db import make_db
-from db.models import User, password_hash, Budget, Category
+
+from db import make_db, User, password_hash, Budget, Category
 
 fake = Faker('ru_RU')
 
