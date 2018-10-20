@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import hashlib
+import bcrypt
 from sqlalchemy import Column, Integer, UnicodeText
 from sqlalchemy.orm import relationship
 from . import BASE_MODEL
@@ -35,5 +35,9 @@ class User(BASE_MODEL):
     categories = relationship('Category', back_populates='owner')
 
 
-def password_hash(email, password):
-    return hashlib.sha256(email.encode() + password.encode()).hexdigest()
+def gen_salt():
+    return str(bcrypt.gensalt().decode())
+
+
+def password_hash(salt, password):
+    return str(bcrypt.hashpw(password, salt).decode())

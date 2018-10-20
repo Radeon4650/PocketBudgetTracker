@@ -1,3 +1,4 @@
 sqlalchemy
 tornado
+tornado-http-auth
 bcrypt
