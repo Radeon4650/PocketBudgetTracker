@@ -16,16 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import bcrypt
-from sqlalchemy import Column, Integer, UnicodeText
+from sqlalchemy import Column, Integer, UnicodeText, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import BASE_MODEL
 
 
 class User(BASE_MODEL):
     __tablename__ = 'users'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    token = Column(UnicodeText(150), unique=True, nullable=False)
 
     login = Column(UnicodeText(40), unique=True)
     pwd_hash = Column(UnicodeText(80), nullable=False, unique=False)
@@ -33,11 +32,17 @@ class User(BASE_MODEL):
 
     user_pic = Column(UnicodeText, nullable=True, unique=False)
     categories = relationship('Category', back_populates='owner')
+    tokens = relationship('Token', back_populates='owner')
 
 
-def gen_salt():
-    return str(bcrypt.gensalt().decode())
+class Token(BASE_MODEL):
+    __tablename__ = "tokens"
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    data = Column(UnicodeText(80), unique=True, nullable=False)
 
+    owner = relationship("User", back_populates="tokens")
+    owner_id = Column(Integer, ForeignKey('users.id'))
 
-def password_hash(salt, password):
-    return str(bcrypt.hashpw(password, salt).decode())
+    expiring_date = Column(DateTime(), nullable=False)
+    expired = Column(Boolean, default=False, nullable=False)
+

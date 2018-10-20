@@ -52,5 +52,5 @@ class PBTServer:
         """
         Start server on a specific ip:port
         """
-        logger.info('The server is listening on %s:%d', self._listen_ip, self._listen_port)
+        logger.info('The server is listening on http://%s:%d', self._listen_ip, self._listen_port)
         tornado.ioloop.IOLoop.current().start()
