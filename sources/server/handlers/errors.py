@@ -20,6 +20,7 @@ limitations under the License.
 class BaseApiError(Exception):
 
     def __init__(self, action="unknown_action", code=404, description="internal error"):
+        super(BaseApiError, self).__init__()
         self.code = code
         self.action = action
         self.description = description

@@ -23,4 +23,3 @@ def get_all_routes():
     routes = []
     routes.extend(web_api_routes)
     return routes
-

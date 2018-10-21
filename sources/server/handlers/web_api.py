@@ -20,7 +20,7 @@ from datetime import date
 from tornado.web import HTTPError, authenticated
 
 from .base import BaseHandler
-from .errors import *
+from .errors import SignInError, SignUpError
 
 
 class MainHandler(BaseHandler):

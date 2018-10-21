@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from datetime import datetime, date, timedelta
+from datetime import datetime, timedelta
 import bcrypt
 
 from tornado.web import RequestHandler
@@ -118,4 +118,3 @@ class BaseHandler(SessionMixin, RequestHandler):
 
 def password_hash(password):
     return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-
