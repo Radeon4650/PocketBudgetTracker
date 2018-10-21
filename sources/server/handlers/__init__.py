@@ -16,6 +16,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from tornado_sqlalchemy import declarative_base
+from .web_api import web_api_routes
 
-BASE_MODEL = declarative_base()
+
+def get_all_routes():
+    routes = []
+    routes.extend(web_api_routes)
+    return routes
+

@@ -16,6 +16,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from tornado_sqlalchemy import declarative_base
 
-BASE_MODEL = declarative_base()
+class BaseApiError(Exception):
+
+    def __init__(self, action="unknown_action", code=404, description="internal error"):
+        self.code = code
+        self.action = action
+        self.description = description
+
+
+class SignUpError(BaseApiError):
+    def __init__(self, description="user creation error"):
+        super(SignUpError, self).__init__(action="new_user", code=400, description=description)
+
+
+class SignInError(BaseApiError):
+    def __init__(self, description="login failed"):
+        super(SignInError, self).__init__(action="login_user", code=401, description=description)

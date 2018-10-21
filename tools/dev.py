@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserved.
 Author: Approximator (alex@nls.la)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ REPO_DIR = os.path.dirname(THIS_DIR)
 
 
 def run_command(cmd):
-    logger.info("Runing: {}".format(cmd))
+    logger.info("Running: {}".format(cmd))
     process = subprocess.Popen(cmd, shell=True, stderr=subprocess.STDOUT, stdout=subprocess.PIPE, cwd=REPO_DIR)
     for line in iter(process.stdout.readline, b''):
         logger.info(line.decode().strip('\n'))
