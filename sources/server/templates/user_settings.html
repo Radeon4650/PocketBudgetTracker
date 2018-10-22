@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block body %}
+<script>
+    function change_currency()
+    {
+        s = document.getElementById("currency");
+        cur = s.options[s.selectedIndex].value;
+        document.getElementById('curr_label').innerHTML = cur
+    }
+</script>
+<h3>Hello {{ current_user.username }}, let's set up your budget</h3>
+<form action="/settings" method="POST">
+    Main currency: <select id="currency" name="currency" onchange="change_currency()">
+    {% for curr in currency_arr %}
+        <option value={{ curr }}>{{ curr }}</option>
+    {% end %}
+
+</select><br><br>
+    <div>Budget period: <select name="period">
+    <option value="month">Monthly</option>
+    <option value="week">Weekly</option>
+    <option value="day">Daily</option>
+    </select><input type="text" name="amount" value="0"><div id="curr_label">{{currency_arr[0]}}</div></div>
+    <br><br>
+    <table class="ui table">
+            <caption>Categories:</caption>
+            <tr>
+                <th>Number</th>
+                <th>Name</th>
+            </tr>
+                    <tr><td>1</td><td>Food</td></tr>
+                    <tr><td>2</td><td>Home</td></tr>
+                    <tr><td>3</td><td>Clothes</td></tr>
+                    <tr><td>4</td><td>Transport</td></tr>
+                    <tr><td>5</td><td>Entertainment</td></tr>
+                    <tr><td>6</td><td>Utility payments</td></tr>
+                    <tr><td>7</td><td><input type="text" name="newcategory" value=""></td></tr>
+        </table>
+    {% module xsrf_form_html() %}
+    <input type="submit" title="Save">
+</form>
+{% end %}

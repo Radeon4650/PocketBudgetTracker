@@ -126,10 +126,29 @@ class AuthLogoutHandler(BaseHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
+class SettingsHandler(BaseHandler):
+    @authenticated
+    def get(self, *args, **kwargs):
+        currency_arr =["UAH", "USD", "EURO"]
+        self.render("user_settings.html", currency_arr=currency_arr)
+
+    @authenticated
+    def post(self, *args, **kwargs):
+        arguments = ["currency", "period", "amount", "newcategory"]
+        result = ''
+        for arg in arguments:
+            result += arg + ': '+ self.get_argument(arg) + '\n'
+        print(result)
+        self.redirect("/settings")
+
+
+
 routes = [
     (r'/', MainHandler),
     (r'/budget', BudgetRequestHandler),
     (r"/auth/create", AuthCreateHandler),
     (r"/auth/login", AuthLoginHandler),
     (r"/auth/logout", AuthLogoutHandler),
+    (r"/settings", SettingsHandler),
+
 ]
