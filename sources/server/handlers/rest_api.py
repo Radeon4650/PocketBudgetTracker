@@ -38,7 +38,7 @@ class RestBaseHandler(BaseHandler):
         try:
             data = json.loads(self.request.body.decode())
             return data
-        except json.JSONDecodeError as e:
+        except json.decoder.JSONDecodeError as e:
             logger.error("JSON parse error: %s" % e)
             self.set_status(400)
             raise Finish()
