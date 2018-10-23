@@ -34,3 +34,8 @@ class SignUpError(BaseApiError):
 class SignInError(BaseApiError):
     def __init__(self, description="login failed"):
         super(SignInError, self).__init__(action="login_user", code=401, description=description)
+
+
+class BodyKeyError(BaseApiError):
+    def __init__(self, description="invalid request data"):
+        super().__init__(action="key_error", code=502, description=description)

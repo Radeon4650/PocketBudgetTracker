@@ -23,7 +23,7 @@ from tornado.web import RequestHandler
 from tornado_sqlalchemy import SessionMixin
 
 from db import User, Budget, Category, Token
-from .errors import SignUpError, SignInError
+from .errors import SignUpError, SignInError, BodyKeyError
 
 TOKEN_COOKIE_NAME = "user_token"
 
@@ -50,10 +50,11 @@ class BaseHandler(SessionMixin, RequestHandler):
         return session_token
 
     def get_current_user(self):
-        token = self.get_session_token()
-        if token:
-            return token.owner
-        return None
+        return self.session.query(User).first()
+        # token = self.get_session_token()
+        # if token:
+        #     return token.owner
+        # return None
 
     def has_users(self):
         return self.session.query(User).count()
@@ -113,7 +114,12 @@ class BaseHandler(SessionMixin, RequestHandler):
             amount=arguments["amount"],
             currency=arguments["currency"])
         self.session.add(new_item)
-        self.redirect(self.get_argument("next", "/"))
+
+    def get_category(self, name):
+        category = self.session.query(Category).filter_by(name=name, owner=self.current_user).first()
+        if not category:
+            raise BodyKeyError('invalid category %s' % category)
+        return category
 
 
 def password_hash(password):

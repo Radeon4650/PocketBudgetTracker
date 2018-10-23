@@ -17,9 +17,11 @@ limitations under the License.
 """
 
 from .web_api import web_api_routes
+from .rest_api import rest_api_routes
 
 
 def get_all_routes():
     routes = []
     routes.extend(web_api_routes)
+    routes.extend(rest_api_routes)
     return routes

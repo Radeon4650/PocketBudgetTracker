@@ -35,8 +35,9 @@ class Budget(BASE_MODEL):
     # currency code according to ISO 4217
     currency = Column(UnicodeText(3), nullable=False, default="USD")
 
-    def __repr__(self):
-        return "{}: {} {} {} {}".format(self.id, self.title, str(self.date), self.amount, self.currency)
+    def to_dict(self):
+        return {'id': self.id, 'date': str(self.date), 'title': str(self.title),
+                'amount': self.amount, 'currency': str(self.currency)}
 
 
 class Category(BASE_MODEL):
@@ -51,3 +52,10 @@ class Category(BASE_MODEL):
 
     # unique constraint for group of owner_id and name
     __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'),)
+
+    def to_dict(self):
+        dict_repr = {'id': self.id, 'name': str(self.name), 'items': []}
+        for item in self.budgets:
+            dict_repr['items'].append(item.to_dict())
+
+        return dict_repr
