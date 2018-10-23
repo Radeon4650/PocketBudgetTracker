@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserved.
 Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");

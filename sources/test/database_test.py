@@ -4,7 +4,6 @@ Database test
 """
 # pylint: disable=all
 import os
-import hashlib
 import bcrypt
 
 from pytest import fixture
@@ -52,8 +51,7 @@ def fake_user_maker():
         def make():
             return User(
                 login=fake.user_name(),
-                pwd_hash=hashlib.sha256(fake.password().encode()).hexdigest(),
-                token=bcrypt.gensalt(),
+                pwd_hash=bcrypt.hashpw(fake.password().encode(), bcrypt.gensalt()).decode(),
                 username=fake.name(),
                 user_pic=fake.image_url())
 

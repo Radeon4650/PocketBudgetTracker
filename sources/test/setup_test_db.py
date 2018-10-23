@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserved.
 Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,7 +25,7 @@ from faker import Faker
 src_root = os.path.dirname(os.path.abspath(os.path.dirname(__file__)))
 sys.path.append(src_root)
 
-from db import make_db, User, password_hash, Budget, Category
+from db import make_db, User, Budget, Category
 
 fake = Faker('ru_RU')
 
@@ -37,8 +37,7 @@ def make_user():
     name = fake.name()
     user = User(
         login=fake.user_name(),
-        pwd_hash=password_hash(name, fake.password()),
-        token=bcrypt.gensalt().decode(),
+        pwd_hash=bcrypt.hashpw(fake.password().encode(), bcrypt.gensalt()).decode(),
         username=name,
         user_pic=fake.image_url())
     session.add(user)

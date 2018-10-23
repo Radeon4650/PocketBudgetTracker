@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserved.
 Authors: Approximator (alex@nls.la)
          Andrey Shelest (khadsl1305@gmail.com)
 

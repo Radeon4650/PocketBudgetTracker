@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserved.
 Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,16 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import hashlib
-from sqlalchemy import Column, Integer, UnicodeText
+from sqlalchemy import Column, Integer, UnicodeText, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
+
 from . import BASE_MODEL
 
 
 class User(BASE_MODEL):
     __tablename__ = 'users'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    token = Column(UnicodeText(150), unique=True, nullable=False)
 
     login = Column(UnicodeText(40), unique=True)
     pwd_hash = Column(UnicodeText(80), nullable=False, unique=False)
@@ -33,7 +32,16 @@ class User(BASE_MODEL):
 
     user_pic = Column(UnicodeText, nullable=True, unique=False)
     categories = relationship('Category', back_populates='owner')
+    tokens = relationship('Token', back_populates='owner')
 
 
-def password_hash(email, password):
-    return hashlib.sha256(email.encode() + password.encode()).hexdigest()
+class Token(BASE_MODEL):
+    __tablename__ = "tokens"
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    data = Column(UnicodeText(80), unique=True, nullable=False)
+
+    owner = relationship("User", back_populates="tokens")
+    owner_id = Column(Integer, ForeignKey('users.id'))
+
+    expiring_date = Column(DateTime(), nullable=False)
+    expired = Column(Boolean, default=False, nullable=False)

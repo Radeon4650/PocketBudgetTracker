@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserverd.
+Copyright © 2018 PocketBudgetTracker. All rights reserved.
 Author: Approximator (alex@nls.la)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,7 +23,7 @@ import tornado
 from tornado.web import Application
 
 import db
-from .handlers import routes
+from .handlers import get_all_routes
 
 # pylint: disable=arguments-differ,abstract-method
 logger = logging.getLogger('server')  # pylint: disable=invalid-name
@@ -41,7 +41,7 @@ class PBTServer:
 
         self._session_factory = db.make_db(db_path)
 
-        self._app = Application(routes,
+        self._app = Application(get_all_routes(),
                                 session_factory=self._session_factory,
                                 template_path=os.path.join(os.path.dirname(__file__), "templates"),
                                 login_url="/auth/login",
@@ -52,5 +52,5 @@ class PBTServer:
         """
         Start server on a specific ip:port
         """
-        logger.info('The server is listening on %s:%d', self._listen_ip, self._listen_port)
+        logger.info('The server is listening on http://%s:%d', self._listen_ip, self._listen_port)
         tornado.ioloop.IOLoop.current().start()
