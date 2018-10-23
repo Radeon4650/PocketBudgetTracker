@@ -50,11 +50,10 @@ class BaseHandler(SessionMixin, RequestHandler):
         return session_token
 
     def get_current_user(self):
-        return self.session.query(User).first()
-        # token = self.get_session_token()
-        # if token:
-        #     return token.owner
-        # return None
+        token = self.get_session_token()
+        if token:
+            return token.owner
+        return None
 
     def has_users(self):
         return self.session.query(User).count()
