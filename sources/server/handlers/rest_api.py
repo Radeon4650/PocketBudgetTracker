@@ -34,6 +34,9 @@ class RestBaseHandler(BaseHandler):
         super(RestBaseHandler, self).prepare()
         self.set_header('Content-Type', 'application/json')
 
+    def get_login_url(self):
+        return "/api/auth/login"
+
     def get_json_data(self):
         try:
             data = json.loads(self.request.body.decode())
