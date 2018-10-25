@@ -72,7 +72,7 @@ class AuthCreateHandler(BaseHandler):
             self.create_new_user(email=self.get_argument("email"),
                                  password=self.get_argument("password"),
                                  username=self.get_argument("username"))
-            self.redirect(self.get_argument("next", "/"))
+            self.redirect("/settings")
         except SignUpError as e:
             raise HTTPError(e.code, e.description)
 

@@ -1,0 +1,140 @@
+body
+{
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica
+    background-image: none
+    -webkit-appearance: none;
+    background-color: #282c34;
+}
+.box
+{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.appTitle
+{
+    position: relative;
+    margin-bottom: 10%;
+    text-align: center;
+    color: #fff;
+    letter-spacing: 3px;
+}
+.appTitle h2
+{
+    margin-top: -25px;
+    color: #9da5b4
+}
+.panelBox, .errorBox
+{
+    width: 300px;
+    padding: 30px;
+    background-color: rgba(0,0,0,.8);
+    box-sizing: padding-box;
+    box-shadow: 0 15px 25px rgba(0,0,0,.5);
+    border-radius: 10px;
+}
+.errorBox
+{
+    padding-bottom: 20px;
+    padding-top: 20px;
+    margin-bottom: 10px;
+    background-color: #e68080aa;
+    border-color: #930104;
+    border-style: solid;
+    border-width: 1px;
+    font-size: 20px;
+    text-align: center;
+    color: #930104;
+}
+.panelBox h2
+{
+    margin: 0 0 20px;
+    padding: 0;
+    color: #fff;
+    text-align: center;
+}
+
+
+.panelBox .inputBox
+{
+    position: relative;
+}
+.panelBox .inputBox input
+{
+    width: 100%;
+    padding: 10px 0;
+    font-size: 22px;
+    margin-bottom: 30px;
+    color: #fff;
+    letter-spacing: 1px;
+    border: none;
+    border-bottom: 1px solid #fff;
+    border-radius: 0px;
+    outline: none;
+    background: transparent;
+
+}
+.panelBox .inputBox label
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 10px 0;
+    font-size: 22px;
+    color: #717172;
+    letter-spacing: 1px;
+    pointer-events: none;
+    transition: .4s;
+    -webkit-transition: top .4s;
+}
+.panelBox .inputBox input:focus ~ label,
+.panelBox .inputBox input:valid ~ label
+{
+    top: -24px;
+    left: 0;
+    color: #03a9f4;
+    font-size: 16px;
+}
+.panelBox .inputBox input:required
+{
+    box-shadow:none;
+}
+.panelBox .inputBox input:invalid
+{
+    box-shadow:none;
+    border-bottom: 1px solid red;
+}
+.panelBox .submitBtn
+{
+    position: relative;
+}
+.panelBox .submitBtn input[type="submit"]
+{
+    width: 100%;
+    padding: 10px 0;
+    border: none;
+    outline: none;
+    font-size: 20px;
+    color: #fff;
+    background: #03a9f4;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    -webkit-appearance: none;
+}
+.signup_ref a
+{
+    position: absolute;
+    bottom: -40px;
+    right: 16px;
+    font-size: 16px;
+    color: #2878de
+}
+.signup_ref a:hover
+{
+    color: #03a9f4;
+}
+

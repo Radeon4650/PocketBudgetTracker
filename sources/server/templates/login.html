@@ -1,14 +1,40 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Pocket budget tracker{% end %}</title>
+    <link rel="stylesheet" href="{{ static_url('style.css') }}" type="text/css">
+</head>
+<div class="box">
+    <div class="appTitle">
+        <h1>Pocket Budget</h1>
+        <h2>tracker</h2>
+    </div>
+    {% if error %}
+    <div class="errorBox">
+        <label> {{ error }} </label>
+    </div>
+    {% end %}
+    <div class="panelBox">
+        <h2>Log in to continue</h2>
+        <form action="/auth/login" method="POST">
+            <div class="inputBox">
+                <input type="text" name="email" required="" autocomplete="off">
+                <label>email address</label>
+            </div>
+            <div class="inputBox">
+                <input type="password" name="password" required="">
+                <label>password</label>
+            </div>
+            <div class="submitBtn">
+                {% module xsrf_form_html() %}
+                <input type="submit" name="" value="Sign in">
+            </div>
+        </form>
+    </div>
+    <div class="signup_ref">
+        <a href="/auth/create">Don't have an account?</a>
+    </div>
+</div>
+</html>
 
-{% block body %}
-{% if error %}
-<span style="color: red">Error: {{ error }}</span><p>
-{% end %}
-
-<form action="/auth/login" method="POST">
-  Email: <input name="email" type="text"><br>
-  Password: <input name="password" type="password"><br>
-  {% module xsrf_form_html() %}
-  <input type="submit">
-</form>
-{% end %}

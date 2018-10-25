@@ -44,6 +44,7 @@ class PBTServer:
         self._app = Application(get_all_routes(),
                                 session_factory=self._session_factory,
                                 template_path=os.path.join(os.path.dirname(__file__), "templates"),
+                                static_path=os.path.join(os.path.dirname(__file__), "static"),
                                 login_url="/auth/login",
                                 cookie_secret="pbt_debug_secret")
         self._app.listen(self._listen_port, self._listen_ip)
