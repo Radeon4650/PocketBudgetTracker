@@ -2,8 +2,8 @@ body
 {
     margin: 0;
     padding: 0;
-    font-family: Helvetica
-    background-image: none
+    font-family: Helvetica;
+    background-image: none;
     -webkit-appearance: none;
     background-color: #282c34;
 }
@@ -25,7 +25,7 @@ body
 .appTitle h2
 {
     margin-top: -25px;
-    color: #9da5b4
+    color: #9da5b4;
 }
 .panelBox, .errorBox
 {
@@ -77,7 +77,7 @@ body
     background: transparent;
 
 }
-.panelBox .inputBox label
+.inputBox label
 {
     position: absolute;
     top: 0;
@@ -90,28 +90,28 @@ body
     transition: .4s;
     -webkit-transition: top .4s;
 }
-.panelBox .inputBox input:focus ~ label,
-.panelBox .inputBox input:valid ~ label
+.inputBox input:focus ~ label,
+.inputBox input:valid ~ label
 {
     top: -24px;
     left: 0;
     color: #03a9f4;
     font-size: 16px;
 }
-.panelBox .inputBox input:required
+.inputBox input:required
 {
     box-shadow:none;
 }
-.panelBox .inputBox input:invalid
+.inputBox input:invalid
 {
     box-shadow:none;
     border-bottom: 1px solid red;
 }
-.panelBox .submitBtn
+.submitBtn
 {
     position: relative;
 }
-.panelBox .submitBtn input[type="submit"]
+.submitBtn input[type="submit"]
 {
     width: 100%;
     padding: 10px 0;
