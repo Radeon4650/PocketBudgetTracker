@@ -11,7 +11,7 @@ body {
     color: #fff;
 }
 
-.appTitle h2 {
+.appTitle h2, h4, p {
     color: #9da5b4;
 }
 

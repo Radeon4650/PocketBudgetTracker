@@ -114,6 +114,13 @@ class BaseHandler(SessionMixin, RequestHandler):
             currency=arguments["currency"])
         self.session.add(new_item)
 
+    def add_category(self, category_name):
+        category = self.session.query(Category).filter_by(owner=self.current_user,
+                                                          name=category_name).first()
+        if not category:
+            category = Category(name=category_name, owner=self.current_user)
+            self.session.add(category)
+
     def get_category(self, name):
         category = self.session.query(Category).filter_by(name=name, owner=self.current_user).first()
         if not category:

@@ -111,11 +111,8 @@ class SettingsPeriodHandler(BaseHandler):
 class SettingsCategoryHandler(BaseHandler):
     @authenticated
     def post(self, *args, **kwargs):
-        arguments = ["currency", "period", "amount", "newcategory"]
-        result = ''
-        for arg in arguments:
-            result += arg + ': ' + self.get_argument(arg) + '\n'
-        self.redirect("/settings")
+        self.add_category(self.get_argument("category"))
+        self.redirect(self.get_argument("next", "/"))
 
 
 web_api_routes = [
