@@ -82,6 +82,7 @@ input[type="submit"] {
     width: 100%;
     font-size: 20px;
     padding: 10px 20px;
+    -webkit-appearance: none;
     border: none;
     outline: none;
     border-radius: 5px;
