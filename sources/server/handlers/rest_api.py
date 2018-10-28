@@ -73,6 +73,7 @@ class RestBudgetHandler(RestBaseHandler):
     @authenticated
     def post(self, *args, **kwargs):
         data_obj = self.get_json_data()
+        print(data_obj)
         try:
             self.add_new_item(category=data_obj["category"],
                               date=date_parser.parse(data_obj["date"]),
@@ -92,6 +93,18 @@ class RestLoginHandler(RestBaseHandler):
             self.set_status(200)
         except KeyError:
             self.error(BodyKeyError())
+
+        except BaseApiError as e:
+            self.error(e)
+
+    @authenticated
+    def get(self, *args, **kwargs):
+        try:
+            user = self.get_current_user()
+            self.set_status(200)
+            self.write(json.dumps({
+                'username': user.username
+            }))
 
         except BaseApiError as e:
             self.error(e)
