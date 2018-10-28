@@ -1,6 +1,6 @@
-{% extends "base.html" %}
+{% extends "base_page.html" %}
 
-{% block body %}
+{% block content %}
   <div style="padding: 35px;">
       <h3>Hello {{ current_user.username }}, this is your budget</h3>
       {% for category in current_user.categories %}

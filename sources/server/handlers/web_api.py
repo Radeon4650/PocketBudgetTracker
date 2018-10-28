@@ -19,6 +19,7 @@ limitations under the License.
 from datetime import date
 from tornado.web import HTTPError, authenticated
 
+from db import CURRENCY_TYPES, PERIOD_TYPES
 from .base import BaseHandler
 from .errors import SignInError, SignUpError
 
@@ -86,16 +87,34 @@ class AuthLogoutHandler(BaseHandler):
 class SettingsHandler(BaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
-        currency_arr = ["UAH", "USD", "EURO"]
-        self.render("user_settings.html", currency_arr=currency_arr)
+        self.render("budget_settings.html",
+                    currency_arr=CURRENCY_TYPES,
+                    periods=PERIOD_TYPES)
 
+    @authenticated
+    def put(self, *args, **kwargs):
+        self.update_budget_plan(period=self.get_argument("period"),
+                                currency=self.get_argument("currency"),
+                                amount=self.get_argument("amount"))
+        self.redirect(self.get_argument("next", "/"))
+
+
+class SettingsPeriodHandler(BaseHandler):
+        @authenticated
+        def post(self, *args, **kwargs):
+            self.update_budget_plan(period=self.get_argument("period"),
+                                    currency=self.get_argument("currency"),
+                                    amount=self.get_argument("amount"))
+            self.redirect(self.get_argument("next", "/"))
+
+
+class SettingsCategoryHandler(BaseHandler):
     @authenticated
     def post(self, *args, **kwargs):
         arguments = ["currency", "period", "amount", "newcategory"]
         result = ''
         for arg in arguments:
             result += arg + ': ' + self.get_argument(arg) + '\n'
-        print(result)
         self.redirect("/settings")
 
 
@@ -105,5 +124,7 @@ web_api_routes = [
     (r"/auth/create", AuthCreateHandler),
     (r"/auth/login", AuthLoginHandler),
     (r"/auth/logout", AuthLogoutHandler),
-    (r"/settings", SettingsHandler)
+    (r"/settings", SettingsHandler),
+    (r"/settings/period", SettingsPeriodHandler),
+    (r"/settings/category", SettingsCategoryHandler)
 ]

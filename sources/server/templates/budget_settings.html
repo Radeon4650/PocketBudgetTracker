@@ -1,0 +1,49 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+<div class="box">
+    <div class="title">
+        <label>Budget configuration</label>
+    </div>
+    <div class="section">
+        <label>Set up your budget plan and currency</label>
+        <div class="content">
+            <form action="/settings/period?next={{ url_escape(request.uri) }}" method="POST">
+                <select name="period">
+                    {% for per in periods %}
+                    {% if current_user.period_type == per %}
+                    <option value={{ per }} selected="selected">{{ per }}</option>
+                    {% else %}
+                    <option value={{ per }}>{{ per }}</option>
+                    {% end %}
+
+                    {% end %}
+                </select>
+                <input type="text" name="amount" value={{ current_user.period_amount }}>
+                <select name="currency">
+                    {% for curr in currency_arr %}
+                    {% if current_user.currency == curr %}
+                    <option value={{ curr }} selected="selected">{{ curr }}</option>
+                    {% else %}
+                    <option value={{ curr }}>{{ curr }}</option>
+                    {% end %}
+
+                    {% end %}
+                </select>
+                {% module xsrf_form_html() %}
+                <input type="submit" name="" value="Update period">
+            </form>
+        </div>
+    </div>
+
+    <div class="section">
+        <label>Categories</label>
+    </div>
+    <ul style="list-style-type:disc">
+        {% for category in current_user.categories %}
+        <li>{{category.name}}</li>
+        {% end %}
+    </ul>
+    </table>
+</div>
+{% end %}

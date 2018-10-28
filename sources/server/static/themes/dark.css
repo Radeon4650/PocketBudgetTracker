@@ -1,0 +1,88 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica;
+    background-image: none;
+    -webkit-appearance: none;
+    background-color: #282c34;
+}
+
+.appTitle {
+    color: #fff;
+}
+
+.appTitle h2 {
+    color: #9da5b4;
+}
+
+a {
+    color: #2878de
+}
+
+label {
+    color: #fff
+}
+
+.panelBox {
+    background-color: rgba(0, 0, 0, .8);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+}
+
+.errorBox {
+    color: #930104;
+    background-color: #e68080aa;
+    border-color: #930104;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+}
+
+.panelBox h2 {
+    color: #fff;
+}
+
+.inputBox input,
+.inputBox input:valid {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.inputBox input:focus {
+    border-bottom: 1px solid #03a9f4;
+}
+
+.inputBox input:invalid {
+    border-bottom: 1px solid red;
+}
+
+.inputBox input:focus~label,
+.inputBox input:valid~label {
+    color: #03a9f4;
+}
+
+.inputBox input:-webkit-autofill {
+    -webkit-text-fill-color: yellow !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input[type="submit"] {
+    color: #fff;
+    background: #03a9f4;
+}
+
+.header {
+    border-bottom: 1px solid #181a1f;
+    background-color: #21252b;
+}
+
+.mainbody .title {
+    color: #fff;
+    border-bottom: 1px solid #6b727e;
+}
+
+.section {
+    border-bottom: 1px solid #6b727e;
+}
+
+.section label {
+    color: #c9c9c9;
+}

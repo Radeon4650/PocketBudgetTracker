@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block body %}
+<link rel="stylesheet" href="{{ static_url('css/page.css') }}" type="text/css">
+<div class="header">
+    <div style="float:right">
+        <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
+        <br>
+        <a href="/settings">Settings</a>
+    </div>
+    <h4><a href="/">Pocket budget tracker</a></h4>
+</div>
+<div class="mainbody">{% block content %}{% end %}</div>
+{% end %}

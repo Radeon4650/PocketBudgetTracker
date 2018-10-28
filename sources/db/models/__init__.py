@@ -19,3 +19,15 @@ limitations under the License.
 from tornado_sqlalchemy import declarative_base
 
 BASE_MODEL = declarative_base()
+
+PERIOD_TYPES = [
+    'Daily',
+    'Weekly',
+    'Monthly'
+]
+
+CURRENCY_TYPES = [
+    "USD",
+    "EUR",
+    "UAH"
+]

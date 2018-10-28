@@ -18,7 +18,7 @@ limitations under the License.
 
 from sqlalchemy import Column, Integer, UnicodeText, Date, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
-from . import BASE_MODEL
+from . import BASE_MODEL, CURRENCY_TYPES
 
 
 class Budget(BASE_MODEL):
@@ -33,7 +33,7 @@ class Budget(BASE_MODEL):
     amount = Column(Integer, nullable=False)
 
     # currency code according to ISO 4217
-    currency = Column(UnicodeText(3), nullable=False, default="USD")
+    currency = Column(UnicodeText(3), nullable=False, default=CURRENCY_TYPES[0])
 
     def to_dict(self):
         return {'id': self.id, 'date': str(self.date), 'title': str(self.title),

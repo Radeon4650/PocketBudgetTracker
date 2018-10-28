@@ -22,7 +22,7 @@ import bcrypt
 from tornado.web import RequestHandler
 from tornado_sqlalchemy import SessionMixin
 
-from db import User, Budget, Category, Token
+from db import User, Budget, Category, Token, PERIOD_TYPES, CURRENCY_TYPES
 from .errors import SignUpError, SignInError, BodyKeyError
 
 TOKEN_COOKIE_NAME = "user_token"
@@ -119,6 +119,15 @@ class BaseHandler(SessionMixin, RequestHandler):
         if not category:
             raise BodyKeyError('invalid category %s' % category)
         return category
+
+    def update_budget_plan(self, period, currency, amount):
+        if period in PERIOD_TYPES:
+            self.current_user.period_type = period
+
+        if currency in CURRENCY_TYPES:
+            self.current_user.currency = currency
+
+        self.current_user.period_amount = amount
 
 
 def password_hash(password):

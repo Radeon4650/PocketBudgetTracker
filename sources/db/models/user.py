@@ -19,7 +19,7 @@ limitations under the License.
 from sqlalchemy import Column, Integer, UnicodeText, DateTime, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 
-from . import BASE_MODEL
+from . import BASE_MODEL, PERIOD_TYPES, CURRENCY_TYPES
 
 
 class User(BASE_MODEL):
@@ -29,6 +29,12 @@ class User(BASE_MODEL):
     login = Column(UnicodeText(40), unique=True)
     pwd_hash = Column(UnicodeText(80), nullable=False, unique=False)
     username = Column(UnicodeText(40), nullable=False, unique=False)
+
+    # Budget configuration
+    # currency code according to ISO 4217
+    currency = Column(UnicodeText(3), nullable=False, default=CURRENCY_TYPES[0])
+    period_type = Column(UnicodeText(10), nullable=False, default=PERIOD_TYPES[0])
+    period_amount = Column(Integer, nullable=False, default=100)
 
     user_pic = Column(UnicodeText, nullable=True, unique=False)
     categories = relationship('Category', back_populates='owner')

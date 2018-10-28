@@ -1,25 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Pocket budget tracker{% end %}</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.0/dist/semantic.min.css">
+    <link rel="stylesheet" href="{{ static_url('themes/dark.css') }}" type="text/css">
 </head>
-  <body>
-    <div id="body">
-      <div id="header">
-        <div style="float:right">
-          {% if current_user %}
-            <a href="/auth/logout?next={{ url_escape(request.uri) }}">{{ _("Sign out") }}</a>
-          {% else %}
-            {% raw _('<a href="%(url)s">Sign in</a> to manage you budget') % {"url": "/auth/login?next=" + url_escape(request.uri)} %}
-            {% raw _('<a href="%(url)s">Sign up</a>') % {"url": "/auth/create?next=" + url_escape(request.uri)} %}
-          {% end %}
-        </div>
-        <h1><a href="/">Pocket budget tracker</a></h1>
-      </div>
-      <div id="content">{% block body %}{% end %}</div>
-    </div>
-    {% block bottom %}{% end %}
-    </body>
+
+<body> {% block body %}{% end %} </body>
+
 </html>
