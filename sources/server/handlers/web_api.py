@@ -16,8 +16,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+import os
 from datetime import date
-from tornado.web import HTTPError, authenticated
+from tornado.web import HTTPError, authenticated, StaticFileHandler
 
 from .base import BaseHandler
 from .errors import SignInError, SignUpError
@@ -83,8 +84,15 @@ class AuthLogoutHandler(BaseHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
+class NewUIHandler(StaticFileHandler):
+
+    def set_extra_headers(self, path):
+        self.set_header('Cache-Control', 'no-store, no-cache, must-revalidate, max-age=0')
+        self.set_header('Expires', '0')
+
 web_api_routes = [
     (r'/', MainHandler),
+    (r'/ui/new/(.*)', NewUIHandler, {'path': os.path.join(os.path.dirname(__file__), '../../../pbt-ui/build')}),
     (r'/budget', BudgetRequestHandler),
     (r"/auth/create", AuthCreateHandler),
     (r"/auth/login", AuthLoginHandler),
