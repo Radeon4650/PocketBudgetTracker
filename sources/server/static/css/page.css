@@ -65,7 +65,7 @@
     margin-top: 10px;
 }
 
-.section input[type="submit"] {
+input[type="submit"] {
     border: none;
     outline: none;
     font-size: 14px;
@@ -73,6 +73,9 @@
     -webkit-appearance: none;
     border-radius: 5px;
     cursor: pointer;
+}
+
+.section input[type="submit"] {
     float: right;
     margin-top: -10px;
 }
@@ -81,4 +84,17 @@
     position: relative;
     left: 50%;
     transform: translate(-50%, 0%);
+}
+
+.chartbox {
+    position: absolute;
+    left: 70%;
+    top: 30%;
+    /* border: 1px solid red; */
+}
+
+.rightBox {
+    position: absolute;
+    top: 30%;
+    /* border: 1px solid red; */
 }

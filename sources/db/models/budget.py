@@ -53,6 +53,19 @@ class Category(BASE_MODEL):
     # unique constraint for group of owner_id and name
     __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'),)
 
+    def total_currency(self):
+        if len(self.budgets):
+            return self.budgets[0].currency
+        else:
+            return ""
+
+    def sum(self):
+        result = 0
+        for item in self.budgets:
+            result += item.amount
+
+        return result
+
     def to_dict(self):
         dict_repr = {'id': self.id, 'name': str(self.name), 'items': []}
         for item in self.budgets:
