@@ -54,10 +54,10 @@ class Category(BASE_MODEL):
     __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'),)
 
     def total_currency(self):
-        if len(self.budgets):
+        if self.budgets:
             return self.budgets[0].currency
-        else:
-            return ""
+
+        return ""
 
     def sum(self):
         result = 0

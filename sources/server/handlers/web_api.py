@@ -102,12 +102,12 @@ class SettingsHandler(BaseHandler):
 
 
 class SettingsPeriodHandler(BaseHandler):
-        @authenticated
-        def post(self, *args, **kwargs):
-            self.update_budget_plan(period=self.get_argument("period"),
-                                    currency=self.get_argument("currency"),
-                                    amount=self.get_argument("amount"))
-            self.redirect(self.get_argument("next", "/"))
+    @authenticated
+    def post(self, *args, **kwargs):
+        self.update_budget_plan(period=self.get_argument("period"),
+                                currency=self.get_argument("currency"),
+                                amount=self.get_argument("amount"))
+        self.redirect(self.get_argument("next", "/"))
 
 
 class SettingsCategoryHandler(BaseHandler):
