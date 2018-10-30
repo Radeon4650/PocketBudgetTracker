@@ -76,3 +76,9 @@
     float: right;
     margin-top: -10px;
 }
+
+.box .ui_table {
+    position: relative;
+    left: 50%;
+    transform: translate(-50%, 0%);
+}

@@ -86,3 +86,35 @@ input[type="submit"] {
 .section label {
     color: #c9c9c9;
 }
+
+.ui_table th {
+    border: 1px solid #6b727e;
+    border-bottom: 1px solid #738eba;
+    color: white;
+}
+
+.ui_table tfoot th {
+    border-top: 1px solid #738eba;
+    border-right: 1px solid #738eba;
+}
+
+.ui_table td {
+    border: 1px solid #6b727e;
+    color: rgb(200, 200, 200);
+}
+
+.ui_table thead th {
+    color: white;
+    background: black;
+    border: 1px solid #738eba;
+}
+
+.ui_table th+td {
+    color: white;
+    background: black;
+    border: 1px solid #738eba;
+}
+
+.ui_table caption {
+    color: white;
+}

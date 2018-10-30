@@ -58,6 +58,8 @@ class AuthLoginHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
         try:
+            print(self.get_argument("email"))
+            print(self.get_argument("password"))
             self.login_user(self.get_argument("email"), self.get_argument("password"))
             self.redirect(self.get_argument("next", "/"))
         except SignInError as e:

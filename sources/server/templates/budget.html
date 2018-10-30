@@ -1,39 +1,56 @@
 {% extends "base_page.html" %}
 
 {% block content %}
-  <div style="padding: 35px;">
-      <h3>Hello {{ current_user.username }}, this is your budget</h3>
-      {% for category in current_user.categories %}
-        <table class="ui table">
-            <caption>{{category.name}}</caption>
+<link rel="stylesheet" href="{{ static_url('css/table.css') }}" type="text/css">
+
+<div class="box">
+    <div class="title" style="text-align: center;">
+        <label>Budget items by categories</label>
+    </div>
+    {% for category in current_user.categories %}
+    <table class="ui_table">
+        {% set sum = 0 %}
+        {% set total_curr = "" %}
+        <caption>{{category.name}}</caption>
+        <thead>
             <tr>
-                <th>Number</th>
-                <th>Date</th>
-                <th>Title</th>
-                <th>Amount</th>
+                <th scope="col">Number</th>
+                <th scope="col">Date</th>
+                <th scope="col">Title</th>
+                <th scope="col">Amount</th>
             </tr>
+        </thead>
+        <tbody>
             {% set i = 1 %}
             {% for budget in category.budgets %}
-                {% block budget %}
-                    <tr>
-                        <td>{{ i }}</td>
-                        <td>{{ budget.date }}</td>
-                        <td>{{ budget.title }}</td>
-                        <td>{{ str(budget.amount) + ' ' + budget.currency}}</td>
-                    </tr>
-                {% end %}
-                {% set i += 1 %}
+            <tr>
+                <td>{{ i }}</td>
+                <td>{{ budget.date }}</td>
+                <td>{{ budget.title }}</td>
+                <td currency={{ budget.currency }}>{{ str(budget.amount) }}</td>
+            </tr>
+            {% set i += 1 %}
+            {% set sum += budget.amount %}
+            {% set total_curr = budget.currency %}
             {% end %}
-        </table>
-      {% end %}
-  </div>
-  <div>
-      <form action="/budget" method="POST">
-          Category: <input name="category" type="text"><br>
-          Title: <input name="title" type="text"><br>
-          Amount: <input name="amount" type="text"><br>
-          {% module xsrf_form_html() %}
-          <input type="submit">
-     </form>
-  </div>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="3" scope="row">Total:</th>
+                <td currency={{ total_curr }}>{{ sum }}</td>
+            </tr>
+        </tfoot>
+    </table>
+    {% end %}
+</div>
+
+<div>
+    <form action="/budget" method="POST">
+        Category: <input name="category" type="text"><br>
+        Title: <input name="title" type="text"><br>
+        Amount: <input name="amount" type="text"><br>
+        {% module xsrf_form_html() %}
+        <input type="submit">
+    </form>
+</div>
 {% end %}
