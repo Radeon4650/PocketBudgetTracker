@@ -41,19 +41,18 @@ class BaseHandler(SessionMixin, RequestHandler):
             return None
 
         session_token = self.session.query(Token).filter_by(data=user_token.decode()).first()
-        if not session_token:
-            return None
-
-        if session_token.expiring_date < datetime.now():
-            self.session.remove(session_token)
-            return None
         return session_token
 
     def get_current_user(self):
         token = self.get_session_token()
-        if token:
-            return token.owner
-        return None
+        if not token:
+            return None
+
+        if token.expiring_date < datetime.now():
+            self.clear_session_token()
+            return None
+
+        return token.owner
 
     def has_users(self):
         return self.session.query(User).count()

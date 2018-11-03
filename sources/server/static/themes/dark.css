@@ -35,8 +35,12 @@ label {
     box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
 }
 
-.panelBox h2 {
+.panelBox h3 {
     color: #fff;
+}
+
+.inputBox label {
+    color: #717172;
 }
 
 .inputBox input,

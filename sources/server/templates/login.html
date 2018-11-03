@@ -3,17 +3,19 @@
 {% block body %}
 <link rel="stylesheet" href="{{ static_url('css/login.css') }}" type="text/css">
 <div class="box">
-    <div class="appTitle">
-        <h1>Pocket Budget</h1>
-        <h2>tracker</h2>
+    <div class="contentBox">
+        <div class="appTitle">
+            <h1>Pocket Budget</h1>
+            <h2>tracker</h2>
+        </div>
+        {% if error %}
+        <div class="errorBox">
+            <label> {{ error }} </label>
+        </div>
+        {% end %}
     </div>
-    {% if error %}
-    <div class="errorBox">
-        <label> {{ error }} </label>
-    </div>
-    {% end %}
     <div class="panelBox">
-        <h2>Log in to continue</h2>
+        <h3>Log in to continue</h3>
         <form action="/auth/login" method="POST">
             <div class="inputBox">
                 <input type="text" name="email" required="" autocomplete="off">
@@ -26,9 +28,9 @@
             {% module xsrf_form_html() %}
             <input type="submit" name="" value="Sign in">
         </form>
-    </div>
-    <div class="signup_ref">
-        <a href="/auth/create">Don't have an account?</a>
+        <div class="signup_ref">
+            <a href="/auth/create">Don't have an account?</a>
+        </div>
     </div>
 </div>
 {% end %}

@@ -1,97 +1,92 @@
-.box {
-    position: absolute;
-    top: 40%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-
-.appTitle {
-    position: relative;
-    margin-bottom: 10%;
-    text-align: center;
-    letter-spacing: 3px;
-}
-
-.appTitle h2 {
-    margin-top: -25px;
-}
-
-.panelBox, .errorBox {
-    width: 300px;
-    padding: 30px;
+.panelBox {
     box-sizing: padding-box;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+    padding: 1rem 2rem;
 }
 
 .errorBox {
-    padding-bottom: 20px;
-    padding-top: 20px;
-    margin-bottom: 10px;
+    box-sizing: padding-box;
+    padding: 0.5rem 1rem;
     border-style: solid;
     border-width: 1px;
-    font-size: 20px;
+    font-size: 1rem;
     text-align: center;
 }
 
-.panelBox h2 {
-    margin: 0 0 20px;
-    padding: 0;
+.panelBox h3 {
     text-align: center;
+    margin-bottom: 2rem;
+    margin-top: 0;
 }
 
-.panelBox .inputBox {
-    position: relative;
-}
-
-.inputBox input {
+.panelBox input[type="submit"] {
     width: 100%;
-    padding: 10px 0;
-    font-size: 22px;
-    margin-bottom: 30px;
-    letter-spacing: 1px;
-    outline: none;
-    border: none;
-    box-shadow: none;
-    border-radius: 0px;
-    background: transparent;
 }
 
-.inputBox label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 10px 0;
-    font-size: 22px;
-    color: #717172;
-    letter-spacing: 1px;
-    pointer-events: none;
-    transition: .4s;
-    -webkit-transition: top .4s;
+.signup_ref {
+    font-size: 0.9rem;
 }
 
-.inputBox input:focus~label,
-.inputBox input:valid~label {
-    top: -24px;
-    left: 0;
-    font-size: 16px;
+/* Extra small devices (phones, 600px and down) */
+@media only screen
+ and (max-device-width: 600px)
+ and (orientation: portrait) {
+
+    .signup_ref {
+        position: relative;
+        width: 100%;
+        margin-top: 1rem;
+        text-align: center;
+    }
+
 }
 
-input[type="submit"] {
-    width: 100%;
-    font-size: 20px;
-    padding: 10px 20px;
-    -webkit-appearance: none;
-    border: none;
-    outline: none;
-    border-radius: 5px;
-    cursor: pointer;
+/* Medium devices (landscape tablets and phones, 400px and up) */
+@media only screen
+ and (min-device-width: 400px)
+ and (max-device-width: 900px)
+ and (orientation: landscape) {
+    .appTitle {
+        margin-top: 2rem;
+    }
+
+    .signup_ref {
+        position: relative;
+        width: 100%;
+        margin-top: 0.5rem;
+        text-align: center;
+    }
 }
 
-.signup_ref a {
-    font-size: 16px;
-    position: absolute;
-    bottom: -40px;
-    right: 16px;
+/* iPad Pro 10 */
+@media only screen
+  and (min-device-width: 834px)
+  and (max-device-width: 1112px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  {
+    .panelBox, .errorBox {
+        margin: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        -moz-border-radius: 0.5rem;
+        -webkit-border-radius: 0.5rem;
+    }
+    .signup_ref {
+        margin-top: 1rem;
+        text-align: center;
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-device-width: 1200px) {
+    .panelBox, .errorBox {
+        margin: 1rem;
+        border-radius: 0.5rem;
+        -moz-border-radius: 0.5rem;
+        -webkit-border-radius: 0.5rem;
+    }
+
+    .signup_ref {
+        position: absolute;
+        right: 1rem;
+        bottom: -0.5rem;
+    }
 }

@@ -1,0 +1,152 @@
+input {
+    font-size: 1rem;
+    padding: 0.1rem;
+    -webkit-appearance: none;
+    border: none;
+    outline: none;
+    border-radius: 0px;
+}
+
+input[type="submit"] {
+    font-size: 1.2rem;
+    border-radius: 0.2rem;
+    padding: 0.5rem;
+    cursor: pointer;
+}
+
+
+.inputBox {
+    box-sizing: content-box;
+    height: 2rem;
+    margin: 0.5rem 0;
+}
+
+.inputBox input {
+    width: 100%;
+    letter-spacing: 0.1rem;
+    text-indent: 0.5rem;
+    box-shadow: none;
+    background: transparent;
+}
+
+.inputBox label {
+    position: absolute;
+    margin-left: 0.2rem;
+    font-size: 1rem;
+    letter-spacing: 0.1rem;
+    pointer-events: none;
+    transition: .4s;
+    -webkit-transition: transform .4s;
+    transform: translate(0, -1.7rem);
+}
+
+.inputBox input:focus~label,
+.inputBox input:valid~label {
+    transform: translate(0, -2.5rem);
+    font-size: 0.8rem;
+}
+
+.box {
+    box-sizing: border-box;
+}
+
+.contentBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    text-align: center;
+    letter-spacing: 0.2rem;
+}
+
+.appTitle {
+    margin-bottom: 2rem;
+}
+
+.appTitle h1, h2 {
+    margin: 0;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen
+and (min-device-width: 400px)
+ and (orientation: portrait) {
+    .box {border: 2px solid red;}
+
+    html {
+        font-size: 22px;
+    }
+    html, body {
+        height: 100%;
+    }
+    .box {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        /* height: 100%; */
+    }
+    .panelBox {
+        padding-bottom: 2rem;
+    }
+}
+
+/* Medium devices (landscape tablets and phones, 400px and up) */
+@media only screen
+ and (min-device-width: 400px)
+ and (orientation: landscape) {
+    .box {border: 2px solid blue;}
+
+    html {
+        font-size: 22px;
+    }
+    html, body {
+        height: 100%;
+    }
+
+    .box {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        /* height: none; */
+    }
+}
+
+/* iPad Pro 10 */
+@media only screen
+  and (min-device-width: 834px)
+  and (min-device-height: 1100px)
+  and (max-device-width: 1112px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  {
+    .box {border: 2px solid yellow;}
+
+    html {
+        font-size: 20px;
+    }
+    .box {
+        display: block;
+        position: absolute;
+        width: 20rem;
+        top: 0;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-device-width: 1200px) {
+    .box {border: 2px solid pink;}
+
+    html {
+        font-size: 18px;
+    }
+
+    .box {
+        display: block;
+        position: absolute;
+        width: 22rem;
+        top: 15%;
+        left: 50%;
+        transform: translate(-50%, 0%);
+    }
+}

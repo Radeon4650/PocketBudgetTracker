@@ -1,11 +1,37 @@
 {% extends "base_page.html" %}
 
 {% block body %}
-<form action="/auth/create" method="POST">
-  Email: <input name="email" type="text"><br>
-  Name: <input name="username" type="text"><br>
-  Password: <input name="password" type="password"><br>
-  {% module xsrf_form_html() %}
-  <input type="submit">
-</form>
+<link rel="stylesheet" href="{{ static_url('css/login.css') }}" type="text/css">
+<div class="box">
+    <div class="contentBox">
+        <div class="appTitle">
+            <h1>Pocket Budget</h1>
+            <h2>tracker</h2>
+        </div>
+        {% if error %}
+        <div class="errorBox">
+            <label> {{ error }} </label>
+        </div>
+        {% end %}
+    </div>
+    <div class="panelBox">
+        <h3>Create account</h3>
+        <form action="/auth/create" method="POST">
+            <div class="inputBox">
+                <input type="text" name="email" required="" autocomplete="off">
+                <label>email address</label>
+            </div>
+            <div class="inputBox">
+                <input type="test" name="username" required="" autocomplete="off">
+                <label>username</label>
+            </div>
+            <div class="inputBox">
+                <input type="password" name="password" required="">
+                <label>password</label>
+            </div>
+            {% module xsrf_form_html() %}
+            <input type="submit" name="" value="Submit" style="{ padding: 0.2rem; 0.5rem;}" >
+        </form>
+    </div>
+</div>
 {% end %}

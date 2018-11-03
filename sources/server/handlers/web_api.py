@@ -68,7 +68,7 @@ class AuthLoginHandler(BaseHandler):
 
 class AuthCreateHandler(BaseHandler):
     def get(self, *args, **kwargs):
-        self.render("create_user.html")
+        self.render("create_user.html", error=None)
 
     def post(self, *args, **kwargs):
         try:
@@ -77,7 +77,7 @@ class AuthCreateHandler(BaseHandler):
                                  username=self.get_argument("username"))
             self.redirect("/settings")
         except SignUpError as e:
-            raise HTTPError(e.code, e.description)
+            self.render("create_user.html", error=e.description)
 
 
 class AuthLogoutHandler(BaseHandler):
