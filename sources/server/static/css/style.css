@@ -1,3 +1,13 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Helvetica;
+    background-image: none;
+    -webkit-appearance: none;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 input {
     font-size: 1rem;
     padding: 0.1rem;
@@ -46,25 +56,42 @@ input[type="submit"] {
     font-size: 0.8rem;
 }
 
+.mainbody {
+    display: flex;
+    justify-content: center;
+    margin-top: 0;
+    min-height: 20rem;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border: 1px solid red;
+}
+
+
 .box {
     box-sizing: border-box;
 }
 
-.contentBox {
+.header {
+    padding: 0.5rem;
+    box-sizing: content-box;
+}
+
+.header .appTitle {
+    display: inline-block;
+    cursor: pointer;
+}
+
+.column {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    text-align: center;
-    letter-spacing: 0.2rem;
 }
 
-.appTitle {
-    margin-bottom: 2rem;
-}
-
-.appTitle h1, h2 {
+.appTitle h1, h2, h3, p {
     margin: 0;
+    letter-spacing: 0.2rem;
+    text-align: center;
 }
 
 /* Extra small devices (phones, 600px and down) */
@@ -83,10 +110,15 @@ and (min-device-width: 400px)
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
-        /* height: 100%; */
     }
     .panelBox {
         padding-bottom: 2rem;
+    }
+    .mainbody {
+        flex-direction: column;
+    }
+    .chartbox {
+      width: 100%;
     }
 }
 
@@ -107,7 +139,10 @@ and (min-device-width: 400px)
         display: flex;
         flex-direction: row;
         justify-content: space-around;
-        /* height: none; */
+    }
+
+    .mainbody {
+        flex-direction: row;
     }
 }
 
@@ -131,6 +166,12 @@ and (min-device-width: 400px)
         left: 50%;
         transform: translate(-50%, 0%);
     }
+    .mainbody {
+        flex-direction: row;
+        /* display: grid;
+        grid-template-columns: 50% 50%;
+        grid-column-gap: 1rem; */
+    }
 }
 
 /* Extra large devices (large laptops and desktops, 1200px and up) */
@@ -148,5 +189,26 @@ and (min-device-width: 400px)
         top: 15%;
         left: 50%;
         transform: translate(-50%, 0%);
+    }
+    .mainbody {
+        flex-direction: row;
+        align-items: stretch;
+    }
+    .rightBox {
+        margin: 0;
+        padding: 0;
+        align-items: stretch;
+        flex-basis: 10rem;
+        flex-grow: 0;
+
+    }
+    .contentBox {
+        flex-grow: 1;
+        display: grid;
+        grid-template-columns: 30% 30% 30%;
+
+    }
+    .inputBox {
+        height: 2.5rem;
     }
 }

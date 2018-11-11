@@ -1,51 +1,10 @@
-.box {
-    position: relative;
-    width: 640px;
-    top: 0;
-    left: 50%;
-    margin-top: 20px;
-    transform: translate(-50%, 0%);
-    /* border: 1px solid blue; */
-}
-
 .box .title {
     box-sizing: inherit;
     text-align: left;
     font-size: 24pt;
     padding-bottom: 10px;
     margin-bottom: 20px;
-    /* border: 1px solid green; */
-}
-
-.mainbody,
-.header {
-    padding: 5px;
-}
-
-.mainbody {
-    margin-top: 0;
-    min-height: 150px;
-    overflow: auto;
-    /* border: 1px solid red; */
-}
-
-.header {
-    box-sizing: content-box;
-}
-
-.header .appTitle {
-    display: inline-block;
-    cursor: pointer;
-    /* border: 1px solid blue; */
-}
-
-.appTitle h3 {
-    margin: 5px 10px;
-}
-
-.appTitle p {
-    margin: 0;
-    text-align: center;
+    border: 1px solid green;
 }
 
 .section {
@@ -65,36 +24,18 @@
     margin-top: 10px;
 }
 
-input[type="submit"] {
-    border: none;
-    outline: none;
-    font-size: 14px;
-    padding: 5px 5px;
-    -webkit-appearance: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
 .section input[type="submit"] {
     float: right;
-    margin-top: -10px;
-}
-
-.box .ui_table {
-    position: relative;
-    left: 50%;
-    transform: translate(-50%, 0%);
-}
-
-.chartbox {
-    position: absolute;
-    left: 70%;
-    top: 30%;
-    /* border: 1px solid red; */
+    /* margin-top: -10px; */
 }
 
 .rightBox {
-    position: absolute;
-    top: 30%;
-    /* border: 1px solid red; */
+    border: 1px solid green;
+}
+.contentBox {
+    border: 1px solid blue;
+}
+.chartbox canvas {
+    /* width: 20rem;
+    height: 20rem; */
 }

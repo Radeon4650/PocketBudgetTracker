@@ -1,9 +1,4 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Helvetica;
-    background-image: none;
-    -webkit-appearance: none;
     background-color: #282c34;
 }
 
@@ -122,6 +117,20 @@ input[type="submit"] {
 .ui_table caption {
     color: white;
 }
+
+.ui_table input[type="submit"] {
+    color: #02f40c;
+}
+.ui_table input[type="submit"]:hover {
+    color: #03a9f4;
+}
+
+.ui_table input {
+    color: white;
+    background-color: #161921;
+    border: 1px solid #03a9f4;
+}
+
 
 .rightBox {
     color: white;

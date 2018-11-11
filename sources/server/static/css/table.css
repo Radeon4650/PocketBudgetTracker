@@ -1,7 +1,8 @@
 .ui_table {
-    font: 1em sans-serif;
+    font: 0.8rem sans-serif;
     border-collapse: collapse;
     border-spacing: 0;
+    margin: 1rem;
 }
 
 .ui_table caption {
@@ -10,7 +11,8 @@
 }
 
 .ui_table td, table th {
-    padding: 0.5em 0.5em 0.4em;
+    padding: 0.2em 0.2em 0.1em;
+    word-wrap: break-word;
 }
 
 .ui_table tbody td+td {
@@ -33,6 +35,26 @@
     border-top-width: 5px;
 }
 
+.ui_table td[col-type="num"] {
+    text-align: center;
+    min-width: 1rem;
+    max-width: 2rem;
+}
+
+.ui_table td[col-type="date"] {
+    width: 5rem;
+    max-width: 7rem;
+}
+.ui_table td[col-type="title"] {
+    min-width: 5rem;
+    width: 10rem;
+    max-width: 15rem;
+}
+.ui_table td[col-type="amount"] {
+    width: 3rem;
+    max-width: 5rem;
+}
+
 .ui_table td[currency="USD"]:last-child::before {
     content: '$ ';
 }
@@ -43,4 +65,57 @@
 
 .ui_table td[currency="UAH"]:last-child::before {
     content: '₴ ';
+}
+
+.ui_table input {
+    font-size: 0.9rem;
+    text-indent: 0.5rem;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    -webkit-appearance: none;
+    box-shadow: none;
+    outline: none;
+    border-radius: 0px;
+}
+
+.ui_table input[type="submit"] {
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen
+ and (min-device-width: 400px)
+ and (orientation: portrait) {
+     .ui_table {
+         width: 100%;
+         margin: 0;
+     }
+
+}
+
+/* Medium devices (landscape tablets and phones, 400px and up) */
+@media only screen
+ and (min-device-width: 400px)
+ and (orientation: landscape) {
+
+}
+
+/* iPad Pro 10 */
+@media only screen
+  and (min-device-width: 834px)
+  and (min-device-height: 1100px)
+  and (max-device-width: 1112px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  {
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-device-width: 1200px) {
+
 }

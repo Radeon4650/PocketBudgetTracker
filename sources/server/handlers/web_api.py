@@ -48,6 +48,18 @@ class BudgetRequestHandler(BaseHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
+class CategoryRequestHandler(BaseHandler):
+
+    @authenticated
+    def post(self, category):
+        self.add_new_item(category=category,
+                          date=date.today(),
+                          title=self.get_argument("title"),
+                          amount=self.get_argument("amount"),
+                          currency="UAH")
+        self.redirect(self.get_argument("next", "/"))
+
+
 class AuthLoginHandler(BaseHandler):
     def get(self, *args, **kwargs):
         # If there are no users, redirect to the account creation page.
@@ -120,6 +132,7 @@ class SettingsCategoryHandler(BaseHandler):
 web_api_routes = [
     (r'/', MainHandler),
     (r'/budget', BudgetRequestHandler),
+    (r'/category/(.*)', CategoryRequestHandler),
     (r"/auth/create", AuthCreateHandler),
     (r"/auth/login", AuthLoginHandler),
     (r"/auth/logout", AuthLogoutHandler),

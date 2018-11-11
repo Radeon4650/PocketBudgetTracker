@@ -15,5 +15,13 @@
         <a href="/settings">Settings</a>
     </div>
 </div>
-<div class="mainbody">{% block content %}{% end %}</div>
+
+<div class="mainbody">
+    <div class="rightBox">
+        {% block right_content %} {% end %}
+    </div>
+    <div class="contentBox">
+        {% block content %} {% end %}
+    </div>
+</div>
 {% end %}
