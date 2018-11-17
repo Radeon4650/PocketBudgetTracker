@@ -16,13 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from datetime import date
+from datetime import date, datetime
 from tornado.web import HTTPError, authenticated
 
 from db import CURRENCY_TYPES, PERIOD_TYPES
 from .base import BaseHandler
 from .errors import SignInError, SignUpError
 
+
+DATE_FORMAT="%Y-%m-%d"
 
 class MainHandler(BaseHandler):
     """
@@ -36,16 +38,16 @@ class MainHandler(BaseHandler):
 class BudgetRequestHandler(BaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
-        self.render("budget.html")
+        self.render("budget.html", default_date=date.today().strftime(DATE_FORMAT))
 
-    @authenticated
-    def post(self, *args, **kwargs):
-        self.add_new_item(category=self.get_argument("category"),
-                          date=date.today(),
-                          title=self.get_argument("title"),
-                          amount=self.get_argument("amount"),
-                          currency="UAH")
-        self.redirect(self.get_argument("next", "/"))
+    # @authenticated
+    # def post(self, *args, **kwargs):
+    #     self.add_new_item(category=self.get_argument("category"),
+    #                       date=date.today(),
+    #                       title=self.get_argument("title"),
+    #                       amount=self.get_argument("amount"),
+    #                       currency="UAH")
+    #     self.redirect(self.get_argument("next", "/"))
 
 
 class CategoryRequestHandler(BaseHandler):
@@ -53,7 +55,7 @@ class CategoryRequestHandler(BaseHandler):
     @authenticated
     def post(self, category):
         self.add_new_item(category=category,
-                          date=date.today(),
+                          date=datetime.strptime(self.get_argument("date"), DATE_FORMAT).date(),
                           title=self.get_argument("title"),
                           amount=self.get_argument("amount"),
                           currency="UAH")

@@ -64,7 +64,7 @@ class Category(BASE_MODEL):
         for item in self.budgets:
             result += item.amount
 
-        return result
+        return round(result, 2)
 
     def to_dict(self):
         dict_repr = {'id': self.id, 'name': str(self.name), 'items': []}
