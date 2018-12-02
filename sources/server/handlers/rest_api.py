@@ -74,7 +74,7 @@ class RestBudgetHandler(RestBaseHandler):
     def post(self, *args, **kwargs):
         data_obj = self.get_json_data()
         try:
-            self.add_new_item(category=data_obj["category"],
+            self.add_new_item(category_id=data_obj["id"],
                               date=date_parser.parse(data_obj["date"]),
                               title=data_obj["title"],
                               amount=data_obj["amount"],

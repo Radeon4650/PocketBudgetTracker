@@ -17,7 +17,7 @@ limitations under the License.
 """
 
 from datetime import date, datetime
-from tornado.web import HTTPError, authenticated
+from tornado.web import authenticated
 
 from db import CURRENCY_TYPES, PERIOD_TYPES
 from .base import BaseHandler
