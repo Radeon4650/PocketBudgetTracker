@@ -24,7 +24,8 @@ from .base import BaseHandler
 from .errors import SignInError, SignUpError
 
 
-DATE_FORMAT="%Y-%m-%d"
+DATE_FORMAT = "%Y-%m-%d"
+
 
 class MainHandler(BaseHandler):
     """
@@ -40,25 +41,28 @@ class BudgetRequestHandler(BaseHandler):
     def get(self, *args, **kwargs):
         self.render("budget.html", default_date=date.today().strftime(DATE_FORMAT))
 
-    # @authenticated
-    # def post(self, *args, **kwargs):
-    #     self.add_new_item(category=self.get_argument("category"),
-    #                       date=date.today(),
-    #                       title=self.get_argument("title"),
-    #                       amount=self.get_argument("amount"),
-    #                       currency="UAH")
-    #     self.redirect(self.get_argument("next", "/"))
-
-
-class CategoryRequestHandler(BaseHandler):
-
     @authenticated
-    def post(self, category):
-        self.add_new_item(category=category,
+    def post(self, *args, **kwargs):
+        self.add_new_item(category_id=self.get_argument("id"),
                           date=datetime.strptime(self.get_argument("date"), DATE_FORMAT).date(),
                           title=self.get_argument("title"),
                           amount=self.get_argument("amount"),
                           currency="UAH")
+        self.redirect(self.get_argument("next", "/"))
+
+
+class CategoryAddHandler(BaseHandler):
+    @authenticated
+    def post(self, *args, **kwargs):
+        self.add_category(self.get_argument("name"))
+        self.redirect(self.get_argument("next", "/"))
+
+
+class CategoryDeleteHandler(BaseHandler):
+    @authenticated
+    def post(self, *args, **kwargs):
+        self.delete_category(category_id=self.get_argument("id"),
+                             delete_items=self.get_argument("delete_items", default=None))
         self.redirect(self.get_argument("next", "/"))
 
 
@@ -72,8 +76,6 @@ class AuthLoginHandler(BaseHandler):
 
     def post(self, *args, **kwargs):
         try:
-            print(self.get_argument("email"))
-            print(self.get_argument("password"))
             self.login_user(self.get_argument("email"), self.get_argument("password"))
             self.redirect(self.get_argument("next", "/"))
         except SignInError as e:
@@ -124,21 +126,14 @@ class SettingsPeriodHandler(BaseHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
-class SettingsCategoryHandler(BaseHandler):
-    @authenticated
-    def post(self, *args, **kwargs):
-        self.add_category(self.get_argument("category"))
-        self.redirect(self.get_argument("next", "/"))
-
-
 web_api_routes = [
     (r'/', MainHandler),
     (r'/budget', BudgetRequestHandler),
-    (r'/category/(.*)', CategoryRequestHandler),
+    (r'/category/delete', CategoryDeleteHandler),
+    (r"/category/add", CategoryAddHandler),
     (r"/auth/create", AuthCreateHandler),
     (r"/auth/login", AuthLoginHandler),
     (r"/auth/logout", AuthLogoutHandler),
     (r"/settings", SettingsHandler),
     (r"/settings/period", SettingsPeriodHandler),
-    (r"/settings/category", SettingsCategoryHandler)
 ]

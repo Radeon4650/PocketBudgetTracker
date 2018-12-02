@@ -1,37 +1,9 @@
-{% extends "base_page.html" %}
+{% extends "base.html" %}
 
-{% block body %}
-<link rel="stylesheet" href="{{ static_url('css/login.css') }}" type="text/css">
-<div class="box">
-    <div class="column">
-        <div class="appTitle">
-            <h1>Pocket Budget</h1>
-            <h2>tracker</h2>
-        </div>
-        {% if error %}
-        <div class="errorBox">
-            <label> {{ error }} </label>
-        </div>
-        {% end %}
-    </div>
-    <div class="panelBox">
-        <h3>Create account</h3>
-        <form action="/auth/create" method="POST">
-            <div class="inputBox">
-                <input type="text" name="email" required="" autocomplete="off">
-                <label>email address</label>
-            </div>
-            <div class="inputBox">
-                <input type="test" name="username" required="" autocomplete="off">
-                <label>username</label>
-            </div>
-            <div class="inputBox">
-                <input type="password" name="password" required="">
-                <label>password</label>
-            </div>
-            {% module xsrf_form_html() %}
-            <input type="submit" name="" value="Submit" style="{ padding: 0.2rem; 0.5rem;}" >
-        </form>
-    </div>
+{% block content %}
+<div class="pbt-new-user-box container" style="width: 40rem;">
+    <h5 class="card-title text-center text-md-left">{{ _("Create new user account") }}</h5>
+    <h6 class="card-subtitle pb-2 mb-2 text-muted text-center text-md-left border-bottom">{{ _("The simplest way to manage your budget.") }}</h6>
+    {% include "forms/new_user.html" %}
 </div>
 {% end %}

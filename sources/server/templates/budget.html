@@ -1,11 +1,19 @@
 {% extends "base_page.html" %}
 
-{% block right_content %}
-    {% include "chartbox.html" %}
-{% end %}
 {% block content %}
-    {% include "tablebox.html" %}
+<link rel="stylesheet" href="{{ static_url('pbt/css/table.css') }}" type="text/css">
+<div class="pbt-page-body container p-0">
+    <div class="d-flex flex-wrap justify-content-between">
+        {% for category in current_user.categories %}
+        <div class="col-fill p-0 col-md-auto">
+            <button type="button" class="btn btn-outline-success text-center w-100 rounded-0 border-bottom-0"
+             aria-label="Add" data-pbt-category-id="{{ category.id }}" data-toggle="modal" data-target="#addCategoryItemsDialog">
+              {{ category.name }}
+            </button>
+            {% include "tablebox.html" %}
+        </div>
+        {% end %}
+    </div>
+</div>
+{% include "modal/add_item_dialog.html" %}
 {% end %}
-    <!-- <div class="title" style="text-align: center;">
-        <label>Budget items by categories</label>
-    </div> -->

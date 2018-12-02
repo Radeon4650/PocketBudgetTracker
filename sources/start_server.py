@@ -30,7 +30,7 @@ logging.basicConfig(
 if __name__ == '__main__':
 
     pbt_server = PBTServer(
-        ip='0.0.0.0',
+        ip='127.0.0.1',
         port=8788,
         db_path='sqlite:////tmp/pbt_test.db'
     )

@@ -1,0 +1,34 @@
+<form action="/settings/period?next={{ url_escape(request.uri) }}" method="POST">
+  <div class="col-md-4 mb-3">
+    <div class="btn-group btn-group-toggle" data-toggle="buttons">
+      {% for per in periods %}
+        {% if current_user.period_type == per %}
+        <label class="btn btn-secondary active">
+          <input type="radio" name="period" value="{{ per }}" autocomplete="off" checked>{{ per }}
+        </label>
+        {% else %}
+        <label class="btn btn-secondary">
+          <input type="radio" name="period" value="{{ per }}" autocomplete="off">{{ per }}
+        </label>
+        {% end %}
+        {% end %}
+    </div>
+    <div class="form-group">
+      <label for="periodAmount">{{ _("Amount") }}</label>
+      <input id="periodAmount" type="number" name="amount" class="form-control" value={{ current_user.period_amount }}>
+    </div>
+    <div class="form-group">
+      <label for="currencySelect">{{ _("Example select") }}</label>
+      <select name="currency" class="form-control" id="currencySelect">
+        {% for curr in currency_arr %}
+        {% if current_user.currency == curr %}
+        <option value={{ curr }} selected="selected">{{ curr }}</option>
+        {% else %}
+        <option value={{ curr }}>{{ curr }}</option>
+        {% end %}
+        {% end %}
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-block">{{ _("Update") }}</button>
+  </div>
+</form>

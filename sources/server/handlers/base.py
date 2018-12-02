@@ -98,12 +98,11 @@ class BaseHandler(SessionMixin, RequestHandler):
         else:
             raise SignInError()
 
-    def add_new_item(self, **arguments):
-        category_name = arguments["category"]
-        category = self.session.query(Category).filter_by(owner=self.current_user,
-                                                          name=category_name).first()
+    def add_new_item(self, category_id, **arguments):
+        category = self.session.query(Category).filter_by(id=category_id,
+                                                          owner=self.current_user).first()
         if not category:
-            category = Category(name=category_name, owner=self.current_user)
+            raise BodyKeyError('invalid category %s' % category)
 
         new_item = Budget(
             category=category,
@@ -125,6 +124,17 @@ class BaseHandler(SessionMixin, RequestHandler):
         if not category:
             raise BodyKeyError('invalid category %s' % category)
         return category
+
+    def delete_category(self, category_id, delete_items=False):
+        category = self.session.query(Category).filter_by(owner=self.current_user,
+                                                          id=category_id).first()
+        if not category:
+            raise BodyKeyError("category %s doesn't exist" % category_id)
+        else:
+            if delete_items is not None:
+                for item in category.budgets:
+                    self.session.delete(item)
+            self.session.delete(category)
 
     def update_budget_plan(self, period, currency, amount):
         if period in PERIOD_TYPES:

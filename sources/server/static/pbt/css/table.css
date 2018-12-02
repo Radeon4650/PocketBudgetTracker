@@ -1,0 +1,22 @@
+.table tfoot th {
+    text-align: right;
+    border-top-width: 0.5rem;
+    border-left: none;
+    border-bottom: none;
+}
+
+.table th+td {
+    border-top-width: 0.5rem;
+}
+
+.table td[currency="USD"]:last-child::before {
+    content: '$ ';
+}
+
+.table td[currency="EUR"]:last-child::before {
+    content: '€ ';
+}
+
+.table td[currency="UAH"]:last-child::before {
+    content: '₴ ';
+}

@@ -3,12 +3,35 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+
+    <!-- browser config -->
+    <link rel="shortcut icon" href="{{ static_url('assets/img/favicon.png') }}"/>
     <title>{% block title %}Pocket budget tracker{% end %}</title>
-    <link rel="stylesheet" href="{{ static_url('css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ static_url('themes/dark.css') }}" type="text/css">
+    <!-- / browser config -->
+
+    <!-- external libs -->
+    <link rel="stylesheet" href="{{ static_url('libs/bootstrap/css/bootstrap.css') }}" />
+    <link rel="stylesheet" href="{{ static_url('libs/fork-awesome/css/fork-awesome.css') }}"/>
+    <link rel="stylesheet" href="{{ static_url('libs/fork-awesome/css/v5-compat.css') }}"/>
+    <!-- / external libs -->
+
+    <!-- application gui -->
+    <link rel="stylesheet" href="{{ static_url('pbt/css/themes/light.css') }}" type="text/css">
+    <link rel="stylesheet" href="{{ static_url('pbt/css/style.css') }}" type="text/css">
+    <!-- / application gui -->
 </head>
 
-<body> {% block body %}{% end %} </body>
+<body>
+    <!-- external libs -->
+    <script type="text/javascript" src="{{ static_url('libs/jquery/jquery-3.3.1.js') }}"/></script>
+    <script type="text/javascript" src="{{ static_url('libs/bootstrap/js/bootstrap.js') }}"></script>
+    <!-- / external libs -->
+
+    {% block navbar %}{% end %}
+    <div class="pbt-body container-fluid d-flex justify-content-center p-0 p-md-1">
+    {% block content %} {% end %}
+    </div>
+</body>
 
 </html>

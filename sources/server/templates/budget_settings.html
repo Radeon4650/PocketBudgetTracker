@@ -1,56 +1,23 @@
 {% extends "base_page.html" %}
 
 {% block content %}
-<div class="box">
-    <div class="title">
-        <label>Budget configuration</label>
+<div class="pbt-settings-box container" style="width: 40rem;">
+  <h5 class="card-title mt-2 text-center text-md-left">{{ _("Budget configuration") }}</h5>
+  <h6 class="card-subtitle pb-2 mb-3 text-muted text-center text-md-left border-bottom">{{ _("Set up your budget plan and manage categories.") }}</h6>
+  <div class="d-flex flex-column flex-md-row">
+  <div class="col-auto p-2">
+    <div class="nav flex-row justify-content-center flex-md-column justify-content-md-start nav-pills" id="pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" data-toggle="pill" href="#pills-categories" role="tab" aria-controls="pills-categories" aria-selected="true">{{ _("Categories") }}</a>
+      <a class="nav-link" data-toggle="pill" href="#pills-budget-config" role="tab" aria-controls="pills-budget-config" aria-selected="false">{{ _("Budget plan") }}</a>
     </div>
-    <div class="section">
-        <label>Set up your budget plan and currency</label>
-        <div class="content">
-            <form action="/settings/period?next={{ url_escape(request.uri) }}" method="POST">
-                <select name="period">
-                    {% for per in periods %}
-                    {% if current_user.period_type == per %}
-                    <option value={{ per }} selected="selected">{{ per }}</option>
-                    {% else %}
-                    <option value={{ per }}>{{ per }}</option>
-                    {% end %}
-
-                    {% end %}
-                </select>
-                <input type="text" name="amount" value={{ current_user.period_amount }}>
-                <select name="currency">
-                    {% for curr in currency_arr %}
-                    {% if current_user.currency == curr %}
-                    <option value={{ curr }} selected="selected">{{ curr }}</option>
-                    {% else %}
-                    <option value={{ curr }}>{{ curr }}</option>
-                    {% end %}
-
-                    {% end %}
-                </select>
-                {% module xsrf_form_html() %}
-                <input type="submit" name="" value="Update period">
-            </form>
-        </div>
+  </div>
+  <div class="w-100">
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-categories" role="tabpanel" aria-labelled-by="pills-categories">{% include "forms/category_list.html" %}</div>
+      <div class="tab-pane fade" id="pills-budget-config" role="tabpanel" aria-labelled-by="pills-budget-config">{% include "forms/budget_plan.html" %}</div>
     </div>
-
-    <div class="section">
-        <label>Categories</label>
-        <div class="content">
-            <form action="/settings/category?next={{ url_escape(request.uri) }}" method="POST">
-                <input type="text" name="category">
-                <input type="submit" name="" value="Add category">
-            </form>
-        </div>
-        <ul class="columns" data-columns="2">
-            {% for category in current_user.categories %}
-            <li>{{category.name}}</li>
-            {% end %}
-        </ul>
-    </div>
-    <div>
-    </div>
+  </div>
 </div>
+
+{% include "modal/delete_category_dialog.html" %}
 {% end %}
