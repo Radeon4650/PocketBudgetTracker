@@ -1,0 +1,22 @@
+<table class="table table-sm table-bordered table-striped text-center w-100">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{ _("Date") }}</th>
+            <th scope="col">{{ _("Title") }}</th>
+            <th scope="col">{{ _("Amount") }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set i = 1 %}
+        {% for budget in category.budgets %}
+        <tr>
+            <td col-type="num">{{ i }}</td>
+            <td col-type="date">{{ budget.date }}</td>
+            <td col-type="title">{{ budget.title }}</td>
+            <td col-type="amount" class="text-right" currency={{ budget.currency }}>{{ str(budget.amount) }}</td>
+        </tr>
+        {% set i += 1 %}
+        {% end %}
+    </tbody>
+</table>

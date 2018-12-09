@@ -1,28 +1,20 @@
-<table class="table table-sm table-bordered table-striped text-center">
-    <thead class="thead-dark">
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">Date</th>
-            <th scope="col">Title</th>
-            <th scope="col">Amount</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% set i = 1 %}
-        {% for budget in category.budgets %}
-        <tr>
-            <td col-type="num">{{ i }}</td>
-            <td col-type="date">{{ budget.date }}</td>
-            <td col-type="title">{{ budget.title }}</td>
-            <td class="text-right" col-type="amount" currency={{ budget.currency }}>{{ str(budget.amount) }}</td>
-        </tr>
-        {% set i += 1 %}
-        {% end %}
-    </tbody>
-    <tfoot>
-        <tr class="text-right">
-            <th colspan="3" scope="row">Total:</th>
-            <td currency={{ category.total_currency() }}>{{ category.sum() }}</td>
-        </tr>
-    </tfoot>
-</table>
+<div class="pbt-table-box col-fill col-md-6 p-1"
+    data-pbt-category-id="{{ category.id }}"
+    data-pbt-category-name="{{ category.name }}">
+    <div class="row align-items-center border border-secondary m-0">
+        <button type="button" class="btn btn-link col-2" aria-label="Add"
+         data-toggle="modal" data-target="#addCategoryItemsDialog">
+         <i class="fa fa-plus" aria-hidden="true" ></i>
+        </button>
+        <button type="button" href="#collapse-{{ category.id }}"
+         class="btn btn-light text-center col-6 rounded-0"
+         role="button" data-toggle="collapse"
+         aria-expanded="true" aria-controls="collapse-{{ category.id }}">
+         <h5 class="m-0">{{ category.name }}</h5>
+         </button>
+         <span class="currency-text col-4 text-info text-right" currency="{{ category.total_currency() }}" > {{ category.sum() }} </span>
+    </div>
+    <div class="pbt-table-content collapse show" id="collapse-{{ category.id }}" content-status="empty">
+            <!--  will be loaded  -->
+    </div>
+</div>

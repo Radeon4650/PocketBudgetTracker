@@ -41,14 +41,21 @@ class BudgetRequestHandler(BaseHandler):
     def get(self, *args, **kwargs):
         self.render("budget.html", default_date=date.today().strftime(DATE_FORMAT))
 
+
+class TableRequestHandler(BaseHandler):
     @authenticated
-    def post(self, *args, **kwargs):
-        self.add_new_item(category_id=self.get_argument("id"),
+    def get(self, category_id):
+        self.render("components/table_body_category.html", category=self.get_category(category_id))
+
+    @authenticated
+    def post(self, category_id, *args, **kwargs):
+        category = self.get_category(category_id)
+        self.add_new_item(category=category,
                           date=datetime.strptime(self.get_argument("date"), DATE_FORMAT).date(),
                           title=self.get_argument("title"),
                           amount=self.get_argument("amount"),
                           currency="UAH")
-        self.redirect(self.get_argument("next", "/"))
+        self.render("components/table_body_category.html", category=category)
 
 
 class CategoryAddHandler(BaseHandler):
@@ -129,6 +136,7 @@ class SettingsPeriodHandler(BaseHandler):
 web_api_routes = [
     (r'/', MainHandler),
     (r'/budget', BudgetRequestHandler),
+    (r'/ajax/table/(.*)', TableRequestHandler),
     (r'/category/delete', CategoryDeleteHandler),
     (r"/category/add", CategoryAddHandler),
     (r"/auth/create", AuthCreateHandler),

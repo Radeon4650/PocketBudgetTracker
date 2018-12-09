@@ -23,15 +23,17 @@
 </head>
 
 <body>
-    <!-- external libs -->
-    <script type="text/javascript" src="{{ static_url('libs/jquery/jquery-3.3.1.js') }}"/></script>
-    <script type="text/javascript" src="{{ static_url('libs/bootstrap/js/bootstrap.js') }}"></script>
-    <!-- / external libs -->
+  {% block header %}{% end %}
+  <div class="pbt-body container d-flex justify-content-center p-0 p-md-1">
+  {% block content %} {% end %}
+  </div>
 
-    {% block navbar %}{% end %}
-    <div class="pbt-body container-fluid d-flex justify-content-center p-0 p-md-1">
-    {% block content %} {% end %}
-    </div>
+  <!-- external libs -->
+  <script type="text/javascript" src="{{ static_url('libs/jquery/jquery-3.3.1.js') }}"/></script>
+  <script type="text/javascript" src="{{ static_url('libs/bootstrap/js/bootstrap.js') }}"></script>
+  <!-- / external libs -->
+
+  {% block scripts %} {% end %}
 </body>
 
 </html>

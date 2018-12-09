@@ -98,12 +98,7 @@ class BaseHandler(SessionMixin, RequestHandler):
         else:
             raise SignInError()
 
-    def add_new_item(self, category_id, **arguments):
-        category = self.session.query(Category).filter_by(id=category_id,
-                                                          owner=self.current_user).first()
-        if not category:
-            raise BodyKeyError('invalid category %s' % category)
-
+    def add_new_item(self, category, **arguments):
         new_item = Budget(
             category=category,
             date=arguments["date"],
@@ -119,10 +114,10 @@ class BaseHandler(SessionMixin, RequestHandler):
             category = Category(name=category_name, owner=self.current_user)
             self.session.add(category)
 
-    def get_category(self, name):
-        category = self.session.query(Category).filter_by(name=name, owner=self.current_user).first()
+    def get_category(self, category_id):
+        category = self.session.query(Category).filter_by(id=category_id, owner=self.current_user).first()
         if not category:
-            raise BodyKeyError('invalid category %s' % category)
+            raise BodyKeyError("category %s doesn't exist" % category_id)
         return category
 
     def delete_category(self, category_id, delete_items=False):

@@ -1,9 +1,10 @@
-<div class="modal fade" id="addCategoryItemsDialog" tabindex="-1" role="dialog" aria-labelledby="addItemsDialogLabel" aria-hidden="true">
+<div class="modal fade" id="addCategoryItemsDialog" role="dialog" aria-labelledby="addItemsDialogLabel" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
-      <form id="addCategoryItemsForm" action="/budget?next={{ url_escape(request.uri) }}" method="POST">
+      <form id="addCategoryItemsForm" method="POST">
         <div class="modal-header">
-          <h5 class="modal-title font-weight-bold" id="addItemsDialogLabel">{{ _("Add items to category") }}</h5>
+          <h5 class="modal-title" id="addItemsDialogLabel">{{ _("Add items to") }}</h5>
+          <h5 id="categoryNameText" class="modal-title font-weight-bold ml-1"></h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -25,7 +26,7 @@
                 <div class="input-group-prepend">
                   <i class="fa fa-shopping-basket input-group-text pt-2" aria-hidden="true" id="titlePrepend"></i>
                 </div>
-                <input name="title" type="text" class="form-control" id="titleInput" aria-describedby="titlePrepend" placeholder="title" required>
+                <input tabindex="1" name="title" type="text" class="form-control" id="titleInput" aria-describedby="titlePrepend" placeholder="title" required>
               </div>
             </div>
             <div class="col-md-7 mb-3 d-flex align-items-center">
@@ -34,29 +35,16 @@
                 <div class="input-group-prepend">
                   <i class="fa fa-money input-group-text pt-2" aria-hidden="true" id="amountPrepend"></i>
                 </div>
-                <input name="amount" type="number" class="form-control" id="amountInput" aria-describedby="amountPrepend"
+                <input tabindex="2" name="amount" type="number" class="form-control" id="amountInput" aria-describedby="amountPrepend"
                 step="0.01" placeholder="10.0" required>
               </div>
             </div>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ _("Cancel") }}</button>
-          <button type="submit" class="btn btn-primary">{{ _("Add") }}</button>
+          <button tabindex="3" id="addCategorySubmitBtn" type="submit" class="btn btn-primary">{{ _("Add") }}</button>
+          <button tabindex="4" type="button" class="btn btn-secondary" data-dismiss="modal">{{ _("Cancel") }}</button>
         </div>
       </form>
     </div>
   </div>
 </div>
-<script>
-$('#addCategoryItemsDialog').on('show.bs.modal', function (event) {
-  // Button that triggered the modal
-  var button = $(event.relatedTarget)
-
-  // Extract info from data-* attributes
-  var category_id = button.data('pbt-category-id')
-
-  $('#addCategoryItemsForm').prop("action", function( i, val ) {
-    return (val + "&id=" + category_id);
-  })
-})
-</script>

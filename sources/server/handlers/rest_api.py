@@ -57,9 +57,9 @@ class RestBudgetHandler(RestBaseHandler):
         try:
             rest_dict = {}
 
-            category = self.get_argument("category", None)
-            if category:
-                rest_dict["category"] = self.get_category(category).to_dict()
+            category_id = self.get_argument("id", None)
+            if category_id:
+                rest_dict["category"] = self.get_category(category_id).to_dict()
             else:
                 rest_dict["categories"] = []
                 for cat in self.current_user.categories:
@@ -74,7 +74,8 @@ class RestBudgetHandler(RestBaseHandler):
     def post(self, *args, **kwargs):
         data_obj = self.get_json_data()
         try:
-            self.add_new_item(category_id=data_obj["id"],
+            category = self.get_category(data_obj["id"])
+            self.add_new_item(category=category,
                               date=date_parser.parse(data_obj["date"]),
                               title=data_obj["title"],
                               amount=data_obj["amount"],

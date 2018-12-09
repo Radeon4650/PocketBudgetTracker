@@ -1,35 +1,55 @@
+/* Show navbar fixed to the top */
+body {
+  min-height: 75rem;
+  padding-top: 4rem; /* .navbar height + margin */
+}
+
 .appTitle h1, h2, h3, p {
     margin: 0;
     letter-spacing: 0.2rem;
 }
 
+.currency-text[currency="USD"]:before,
+.table td[currency="USD"]:last-child::before {
+    content: '$ ';
+}
+
+.currency-text[currency="EUR"]:before,
+.table td[currency="EUR"]:last-child::before {
+    content: '€ ';
+}
+
+.currency-text[currency="UAH"]:before,
+.table td[currency="UAH"]:last-child::before {
+    content: '₴ ';
+}
  /* Extra small devices (portrait phones, less than 576px) */
 @media (max-width: 575.98px)
 {
-  .pbt-body {border: 2px solid red;}
+  /* .pbt-body {border: 2px solid red;} */
 }
 
  /* Small devices (landscape phones, 576px and up) */
 @media (min-width: 576px) and (max-width: 767.98px)
 {
-  .pbt-body {border: 2px solid blue;}
+  /* .pbt-body {border: 2px solid blue;} */
 }
 
  /* Medium devices (tablets, 768px and up) */
 @media (min-width: 768px) and (max-width: 991.98px)
 {
-  .pbt-body {border: 2px solid green;}
+  /* .pbt-body {border: 2px solid green;} */
 }
 
  /* Large devices (desktops, 992px and up) */
 @media (min-width: 992px) and (max-width: 1199.98px)
 {
-  .pbt-body {border: 2px solid yellow;}
+  /* .pbt-body {border: 2px solid yellow;} */
 
 }
 
  /* Extra large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px)
 {
-  .pbt-body {border: 2px solid pink;}
+  /* .pbt-body {border: 2px solid pink;} */
 }
