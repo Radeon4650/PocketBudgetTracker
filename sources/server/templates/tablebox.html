@@ -12,7 +12,10 @@
          aria-expanded="true" aria-controls="collapse-{{ category.id }}">
          <h5 class="m-0">{{ category.name }}</h5>
          </button>
-         <span class="currency-text col-4 text-info text-right" currency="{{ category.total_currency() }}" > {{ category.sum() }} </span>
+         <span class="pbt-category-total currency-text col-4 text-info text-right"
+          currency="{{ category.total_currency() }}">
+          <!--  will be loaded  -->
+         </span>
     </div>
     <div class="pbt-table-content collapse show" id="collapse-{{ category.id }}" content-status="empty">
             <!--  will be loaded  -->

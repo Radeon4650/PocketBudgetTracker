@@ -6,6 +6,7 @@ var Utils = (function () {
         this.id = this.box.data('pbt-category-id');
         this.name = this.box.data('pbt-category-name');
         this.body = $(this.box.find('.pbt-table-content').first());
+        this.total = $(this.box.find('.pbt-category-total').first());
         this.ajax_url = 'ajax/table/' + this.id;
     };
     Category.prototype.isLoaded = function() {
@@ -14,6 +15,14 @@ var Utils = (function () {
 
     Category.prototype.setStatus = function(status) {
         this.body.attr('content-status', status);
+    };
+
+    Category.prototype.updateTable = function(data) {
+        this.body = this.body.html(data);
+
+        // update total amount in the collapse header
+        var table = $(this.body.find('.pbt-category-table').first());
+        this.total = this.total.html(table.data('pbt-category-total'));
     };
 
     Category.prototype.load = function() {
@@ -26,7 +35,8 @@ var Utils = (function () {
         $.get( this.ajax_url, function( data ) {
             if (!_category.isLoaded()) {
                 _category.setStatus('loaded');
-                _category.body.html(data);
+                _category.updateTable(data);
+
                 console.log('Category <' + _category.id + '> content loaded.');
             }
         });
@@ -35,7 +45,8 @@ var Utils = (function () {
     Category.prototype.add = function(formData) {
         var _category = this;
         $.post(this.ajax_url, formData, function( data ) {
-            _category.body.html(data);
+            _category.updateTable(data);
+            console.log('Category <' + _category.id + '> content updated.');
         });
     };
 
