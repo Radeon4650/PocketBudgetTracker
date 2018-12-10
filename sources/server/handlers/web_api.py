@@ -44,12 +44,13 @@ class BudgetRequestHandler(BaseHandler):
 
 class TableRequestHandler(BaseHandler):
     @authenticated
-    def get(self, category_id):
-        self.render("components/table_body_category.html", category=self.get_category(category_id))
+    def get(self, *args, **kwargs):
+        self.render("components/table_body_category.html",
+                    category=self.get_category(args[0]))
 
     @authenticated
-    def post(self, category_id, *args, **kwargs):
-        category = self.get_category(category_id)
+    def post(self, *args, **kwargs):
+        category = self.get_category(args[0])
         self.add_new_item(category=category,
                           date=datetime.strptime(self.get_argument("date"), DATE_FORMAT).date(),
                           title=self.get_argument("title"),
