@@ -9,6 +9,10 @@ body {
     letter-spacing: 0.2rem;
 }
 
+.pbt-date-picker {
+    width: 15rem;
+}
+
 .currency-text[currency="USD"]:before,
 .table td[currency="USD"]:last-child::before {
     content: '$ ';

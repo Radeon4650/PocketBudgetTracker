@@ -17,6 +17,7 @@ limitations under the License.
 """
 
 from datetime import datetime, timedelta
+import calendar
 import bcrypt
 
 from tornado.web import RequestHandler
@@ -119,6 +120,19 @@ class BaseHandler(SessionMixin, RequestHandler):
         if not category:
             raise BodyKeyError("category %s doesn't exist" % category_id)
         return category
+
+    def get_category_items(self, category, month_date):
+        start_date = month_date.replace(day=1)
+        end_date = start_date.replace(day=calendar.mdays[start_date.month])
+
+        return category.budgets.filter(Budget.date.between(start_date, end_date))
+
+    def get_category_total(self, items):
+        result = 0
+        for item in items:
+            result += item.amount
+
+        return round(result, 2)
 
     def delete_category(self, category_id, delete_items=False):
         category = self.session.query(Category).filter_by(owner=self.current_user,

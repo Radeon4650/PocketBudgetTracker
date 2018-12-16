@@ -48,23 +48,13 @@ class Category(BASE_MODEL):
     owner = relationship("User", back_populates="categories")
     owner_id = Column(Integer, ForeignKey('users.id'))
 
-    budgets = relationship('Budget', back_populates='category')
+    budgets = relationship('Budget',
+                           back_populates='category',
+                           order_by="Budget.date",
+                           lazy="dynamic")
 
     # unique constraint for group of owner_id and name
     __table_args__ = (UniqueConstraint('name', 'owner_id', name='_category_owner_uc'),)
-
-    def total_currency(self):
-        if self.budgets:
-            return self.budgets[0].currency
-
-        return ""
-
-    def sum(self):
-        result = 0
-        for item in self.budgets:
-            result += item.amount
-
-        return round(result, 2)
 
     def to_dict(self):
         dict_repr = {'id': self.id, 'name': str(self.name), 'items': []}

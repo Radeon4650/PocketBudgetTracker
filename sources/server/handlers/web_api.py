@@ -39,24 +39,39 @@ class MainHandler(BaseHandler):
 class BudgetRequestHandler(BaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
-        self.render("budget.html", default_date=date.today().strftime(DATE_FORMAT))
+        self.render("budget.html")
 
 
 class TableRequestHandler(BaseHandler):
     @authenticated
     def get(self, *args, **kwargs):
+        category = self.get_category(args[0])
+
+        filter_date = date(int(self.get_argument("year")), int(self.get_argument("month")), 1)
+        items = self.get_category_items(category, filter_date)
+
         self.render("components/table_body_category.html",
-                    category=self.get_category(args[0]))
+                    category=category,
+                    category_items=items,
+                    category_total=self.get_category_total(items))
 
     @authenticated
     def post(self, *args, **kwargs):
         category = self.get_category(args[0])
+
         self.add_new_item(category=category,
                           date=datetime.strptime(self.get_argument("date"), DATE_FORMAT).date(),
                           title=self.get_argument("title"),
                           amount=self.get_argument("amount"),
-                          currency="UAH")
-        self.render("components/table_body_category.html", category=category)
+                          currency="UAH") # TODO: implement
+
+        filter_date = date(int(self.get_argument("year")), int(self.get_argument("month")), 1)
+        items = self.get_category_items(category, filter_date)
+
+        self.render("components/table_body_category.html",
+                    category=category,
+                    category_items=items,
+                    category_total=self.get_category_total(items))
 
 
 class CategoryAddHandler(BaseHandler):

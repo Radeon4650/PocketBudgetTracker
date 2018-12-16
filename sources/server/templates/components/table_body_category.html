@@ -1,5 +1,5 @@
 <table class="pbt-category-table table table-sm table-bordered table-striped text-center w-100"
-        data-pbt-category-total="{{ category.sum() }}">
+        data-pbt-category-total="{{ category_total }}">
     <thead class="thead-light">
         <tr>
             <th scope="col">#</th>
@@ -10,12 +10,12 @@
     </thead>
     <tbody>
         {% set i = 1 %}
-        {% for budget in category.budgets %}
+        {% for item in category_items %}
         <tr>
             <td col-type="num">{{ i }}</td>
-            <td col-type="date">{{ budget.date }}</td>
-            <td col-type="title">{{ budget.title }}</td>
-            <td col-type="amount" class="text-right" currency={{ budget.currency }}>{{ str(budget.amount) }}</td>
+            <td col-type="date">{{ item.date }}</td>
+            <td col-type="title">{{ item.title }}</td>
+            <td col-type="amount" class="text-right" currency={{ item.currency }}>{{ str(item.amount) }}</td>
         </tr>
         {% set i += 1 %}
         {% end %}
