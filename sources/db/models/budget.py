@@ -16,7 +16,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from sqlalchemy import Column, Integer, UnicodeText, Date, ForeignKey, UniqueConstraint
+from sqlalchemy import Column, Integer, FLOAT, VARCHAR, Date, ForeignKey, UniqueConstraint
 from sqlalchemy.orm import relationship
 from . import BASE_MODEL, CURRENCY_TYPES
 
@@ -29,11 +29,11 @@ class Budget(BASE_MODEL):
     category_id = Column(Integer, ForeignKey('categories.id'))
 
     date = Column(Date, nullable=False)
-    title = Column(UnicodeText, nullable=False)
-    amount = Column(Integer, nullable=False)
+    title = Column(VARCHAR(100), nullable=False)
+    amount = Column(FLOAT, nullable=False)
 
     # currency code according to ISO 4217
-    currency = Column(UnicodeText(3), nullable=False, default=CURRENCY_TYPES[0])
+    currency = Column(VARCHAR(3), nullable=False, default=CURRENCY_TYPES[0])
 
     def to_dict(self):
         return {'id': self.id, 'date': str(self.date), 'title': str(self.title),
@@ -43,7 +43,7 @@ class Budget(BASE_MODEL):
 class Category(BASE_MODEL):
     __tablename__ = 'categories'
     id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
-    name = Column(UnicodeText, nullable=False)
+    name = Column(VARCHAR(255), nullable=False)
 
     owner = relationship("User", back_populates="categories")
     owner_id = Column(Integer, ForeignKey('users.id'))

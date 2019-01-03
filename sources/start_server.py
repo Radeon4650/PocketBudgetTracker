@@ -32,6 +32,6 @@ if __name__ == '__main__':
     pbt_server = PBTServer(
         ip='127.0.0.1',
         port=8788,
-        db_path='sqlite:////tmp/pbt_test.db'
+        db_path='postgresql://postgres@localhost/pbt_database'
     )
     pbt_server.run()
