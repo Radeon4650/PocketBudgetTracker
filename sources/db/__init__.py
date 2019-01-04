@@ -28,7 +28,7 @@ logger = logging.getLogger('server_db')
 
 def make_db(db_uri):
     session_factory = make_session_factory(db_uri)
-    fill_db_if_empty(session_factory.engine)
+    # fill_db_if_empty(session_factory.engine)
     return session_factory
 
 

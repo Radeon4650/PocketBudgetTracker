@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserved.
-Authors: Approximator (alex@nls.la)
-         Andrey Shelest (khadsl1305@gmail.com)
+Copyright © 2019 PocketBudgetTracker. All rights reserved.
+Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -17,17 +16,4 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import logging
-
-from server import PBTServer
-
-logger = logging.getLogger('start_server')
-logging.basicConfig(
-    format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
-    datefmt='%d-%m-%Y:%H:%M:%S',
-    level='INFO')
-
-if __name__ == '__main__':
-
-    pbt_server = PBTServer()
-    pbt_server.run()
+from .pbtconfig import PbtConfig

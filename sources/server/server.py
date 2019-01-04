@@ -23,6 +23,7 @@ import tornado
 from tornado.web import Application
 
 import db
+from config import PbtConfig
 from .handlers import get_all_routes
 
 # pylint: disable=arguments-differ,abstract-method
@@ -35,11 +36,11 @@ class PBTServer:
     Server
     """
 
-    def __init__(self, ip, port, db_path):
-        self._listen_ip = ip
-        self._listen_port = port
+    def __init__(self):
+        self._config = PbtConfig()
+        self._config.load()
 
-        self._session_factory = db.make_db(db_path)
+        self._session_factory = db.make_db(self._config.db_path())
 
         self._app = Application(get_all_routes(),
                                 session_factory=self._session_factory,
@@ -47,11 +48,11 @@ class PBTServer:
                                 static_path=os.path.join(os.path.dirname(__file__), "static"),
                                 login_url="/auth/login",
                                 cookie_secret="pbt_debug_secret")
-        self._app.listen(self._listen_port, self._listen_ip)
+        self._app.listen(self._config.port(), self._config.host())
 
     def run(self):
         """
         Start server on a specific ip:port
         """
-        logger.info('The server is listening on http://%s:%d', self._listen_ip, self._listen_port)
+        logger.info('The server is listening on http://%s:%d', self._config.host(), self._config.port())
         tornado.ioloop.IOLoop.current().start()
