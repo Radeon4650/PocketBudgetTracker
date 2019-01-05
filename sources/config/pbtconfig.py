@@ -60,7 +60,7 @@ class PbtConfig(object):
             if str(path).startswith('/'):
                 return "sqlite:///" + path
             else:
-                return "sqlite:///" + os.path.join(self.config_path, path)
+                return "sqlite:///" + os.path.join(self.dirs.user_config_dir, path)
 
         elif engine_type == "postgresql":
             return "postgresql://" + path

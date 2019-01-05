@@ -20,14 +20,15 @@ limitations under the License.
 import logging
 
 from server import PBTServer
+from migrate import upgrade
 
-logger = logging.getLogger('start_server')
+logger = logging.getLogger('server')
 logging.basicConfig(
     format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
     datefmt='%d-%m-%Y:%H:%M:%S',
     level='INFO')
 
 if __name__ == '__main__':
-
     pbt_server = PBTServer()
+    upgrade(pbt_server.config)
     pbt_server.run()

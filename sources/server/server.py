@@ -37,10 +37,10 @@ class PBTServer:
     """
 
     def __init__(self):
-        self._config = PbtConfig()
-        self._config.load()
+        self.config = PbtConfig()
+        self.config.load()
 
-        self._session_factory = db.make_db(self._config.db_path())
+        self._session_factory = db.make_db(self.config.db_path())
 
         self._app = Application(get_all_routes(),
                                 session_factory=self._session_factory,
@@ -48,11 +48,11 @@ class PBTServer:
                                 static_path=os.path.join(os.path.dirname(__file__), "static"),
                                 login_url="/auth/login",
                                 cookie_secret="pbt_debug_secret")
-        self._app.listen(self._config.port(), self._config.host())
+        self._app.listen(self.config.port(), self.config.host())
 
     def run(self):
         """
         Start server on a specific ip:port
         """
-        logger.info('The server is listening on http://%s:%d', self._config.host(), self._config.port())
+        logger.info('The server is listening on http://%s:%d', self.config.host(), self.config.port())
         tornado.ioloop.IOLoop.current().start()
