@@ -19,16 +19,18 @@ limitations under the License.
 
 
 import os
+import logging
 import alembic.config as aconf
 from alembic import command
-import logging
 
 logger = logging.getLogger('pbt.migrate')
 logging.getLogger('alembic').setLevel(logging.WARNING)
+logging.getLogger('sqlalchemy').setLevel(logging.WARNING)
 
 
-class Migrate(object):
+class Migrate:
     def __init__(self, db_path, directory='migrations', ini_file='alembic.ini'):
+
         self.db_path = db_path
         self.directory = os.path.join(os.path.dirname(__file__), directory)
         self.ini_path = os.path.join(os.path.dirname(__file__), ini_file)
@@ -41,7 +43,9 @@ class Migrate(object):
         command.show(self.config, 'current')
 
     def upgrade_head(self):
+        logger.info('Database upgrade started.')
         command.upgrade(self.config, 'head')
+        logger.info('Database upgrade finished.')
 
     def commit(self, msg):
         command.revision(self.config, message=msg, autogenerate=True)

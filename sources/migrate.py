@@ -17,13 +17,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-import logging
 import argparse
 from db import Migrate
 from config import PbtConfig
-
-logging.getLogger('alembic').setLevel(logging.INFO)
-logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 if __name__ == '__main__':
@@ -55,6 +51,3 @@ if __name__ == '__main__':
             args.cmd()
     except AttributeError:
         parser.print_help()
-
-
-

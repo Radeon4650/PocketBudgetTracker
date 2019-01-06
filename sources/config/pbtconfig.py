@@ -20,7 +20,7 @@ import os
 import shutil
 import logging
 
-from configparser import ConfigParser
+from configparser import ConfigParser, ParsingError
 from appdirs import AppDirs
 
 logger = logging.getLogger('pbt.config')
@@ -29,7 +29,7 @@ CONFIG_NAME = 'pbtconfig.cfg'
 CONFIG_DEFAULT = os.path.join(os.path.dirname(__file__), 'pbt_defaults.cfg')
 
 
-class PbtConfig(object):
+class PbtConfig:
     def __init__(self):
         self.app_name = "pbtserver"
         self.author = "PBT Team"
@@ -49,11 +49,13 @@ class PbtConfig(object):
             os.mkdir(self.dirs.user_config_dir)
 
         if not os.path.exists(self.config_path):
+            logger.info("Default config copied to {}".format(self.config_path))
             shutil.copyfile(CONFIG_DEFAULT, self.config_path, follow_symlinks=True)
 
         try:
             self.config.read_file(open(self.config_path, encoding='utf-8'))
-        except:
+            logger.info("Config has been read from {}".format(self.config_path))
+        except (AttributeError, ParsingError):
             logger.error("Couldn't read config from {}".format(self.config_path))
             self.config.read_file(open(CONFIG_DEFAULT, encoding='utf-8'))
 
@@ -62,15 +64,15 @@ class PbtConfig(object):
     def db_path(self):
         path = self.config["DB"]["path"]
         engine_type = self.config["DB"]["engine"]
+        result = ""
         if engine_type == "sqlite":
             if str(path).startswith('/'):
-                return "sqlite:///" + path
+                result = "sqlite:///" + path
             else:
-                return "sqlite:///" + os.path.join(self.dirs.user_config_dir, path)
-
+                result = "sqlite:///" + os.path.join(self.dirs.user_config_dir, path)
         elif engine_type == "postgresql":
-            return "postgresql://" + path
-        return ""
+            result = "postgresql://" + path
+        return result
 
     def host(self):
         return str(self.config["SERVER"]["ip"])

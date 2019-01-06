@@ -24,7 +24,6 @@ from .models.user import User, Token
 from .models.budget import Budget, Category
 
 logger = logging.getLogger('pbt.db')
-logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
 
 
 def make_db(db_uri):

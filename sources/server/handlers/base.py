@@ -121,12 +121,14 @@ class BaseHandler(SessionMixin, RequestHandler):
             raise BodyKeyError("category %s doesn't exist" % category_id)
         return category
 
+    # pylint: disable=R0201
     def get_category_items(self, category, month_date):
         start_date = month_date.replace(day=1)
         end_date = start_date.replace(day=calendar.mdays[start_date.month])
 
         return category.budgets.filter(Budget.date.between(start_date, end_date))
 
+    # pylint: disable=R0201
     def get_category_total(self, items):
         result = 0
         for item in items:

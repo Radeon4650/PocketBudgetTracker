@@ -1,7 +1,7 @@
 """Initial tables migration
 
 Revision ID: ca2f7f8fb80b
-Revises: 
+Revises:
 Create Date: 2019-01-03 22:19:58.776220
 
 """
