@@ -1,0 +1,23 @@
+{% extends "base_page.html" %}
+
+{% block content %}
+<div class="pbt-settings-box container" style="width: 40rem;">
+  <h5 class="card-title mt-2 text-center text-md-left">{{ _("Budget configuration") }}</h5>
+  <h6 class="card-subtitle pb-2 mb-3 text-muted text-center text-md-left border-bottom">{{ _("Set up your budget plan and manage categories.") }}</h6>
+  <div class="d-flex flex-column flex-md-row">
+  <div class="col-auto p-2">
+    <div class="nav flex-row justify-content-center flex-md-column justify-content-md-start nav-pills" id="pills-tab" role="tablist" aria-orientation="vertical">
+      <a class="nav-link active" data-toggle="pill" href="#pills-categories" role="tab" aria-controls="pills-categories" aria-selected="true">{{ _("Categories") }}</a>
+      <a class="nav-link" data-toggle="pill" href="#pills-budget-config" role="tab" aria-controls="pills-budget-config" aria-selected="false">{{ _("Budget plan") }}</a>
+    </div>
+  </div>
+  <div class="w-100">
+    <div class="tab-content" id="pills-tabContent">
+      <div class="tab-pane fade show active" id="pills-categories" role="tabpanel" aria-labelled-by="pills-categories">{% include "forms/category_list.html" %}</div>
+      <div class="tab-pane fade" id="pills-budget-config" role="tabpanel" aria-labelled-by="pills-budget-config">{% include "forms/budget_plan.html" %}</div>
+    </div>
+  </div>
+</div>
+
+{% include "modal/delete_category_dialog.html" %}
+{% end %}

@@ -17,12 +17,13 @@ limitations under the License.
 """
 
 from datetime import datetime, timedelta
+import calendar
 import bcrypt
 
 from tornado.web import RequestHandler
 from tornado_sqlalchemy import SessionMixin
 
-from db import User, Budget, Category, Token
+from db import User, Budget, Category, Token, PERIOD_TYPES, CURRENCY_TYPES
 from .errors import SignUpError, SignInError, BodyKeyError
 
 TOKEN_COOKIE_NAME = "user_token"
@@ -41,19 +42,18 @@ class BaseHandler(SessionMixin, RequestHandler):
             return None
 
         session_token = self.session.query(Token).filter_by(data=user_token.decode()).first()
-        if not session_token:
-            return None
-
-        if session_token.expiring_date < datetime.now():
-            self.session.remove(session_token)
-            return None
         return session_token
 
     def get_current_user(self):
         token = self.get_session_token()
-        if token:
-            return token.owner
-        return None
+        if not token:
+            return None
+
+        if token.expiring_date < datetime.now():
+            self.clear_session_token()
+            return None
+
+        return token.owner
 
     def has_users(self):
         return self.session.query(User).count()
@@ -99,13 +99,7 @@ class BaseHandler(SessionMixin, RequestHandler):
         else:
             raise SignInError()
 
-    def add_new_item(self, **arguments):
-        category_name = arguments["category"]
-        category = self.session.query(Category).filter_by(owner=self.current_user,
-                                                          name=category_name).first()
-        if not category:
-            category = Category(name=category_name, owner=self.current_user)
-
+    def add_new_item(self, category, **arguments):
         new_item = Budget(
             category=category,
             date=arguments["date"],
@@ -114,11 +108,53 @@ class BaseHandler(SessionMixin, RequestHandler):
             currency=arguments["currency"])
         self.session.add(new_item)
 
-    def get_category(self, name):
-        category = self.session.query(Category).filter_by(name=name, owner=self.current_user).first()
+    def add_category(self, category_name):
+        category = self.session.query(Category).filter_by(owner=self.current_user,
+                                                          name=category_name).first()
         if not category:
-            raise BodyKeyError('invalid category %s' % category)
+            category = Category(name=category_name, owner=self.current_user)
+            self.session.add(category)
+
+    def get_category(self, category_id):
+        category = self.session.query(Category).filter_by(id=category_id, owner=self.current_user).first()
+        if not category:
+            raise BodyKeyError("category %s doesn't exist" % category_id)
         return category
+
+    # pylint: disable=R0201
+    def get_category_items(self, category, month_date):
+        start_date = month_date.replace(day=1)
+        end_date = start_date.replace(day=calendar.mdays[start_date.month])
+
+        return category.budgets.filter(Budget.date.between(start_date, end_date))
+
+    # pylint: disable=R0201
+    def get_category_total(self, items):
+        result = 0
+        for item in items:
+            result += item.amount
+
+        return round(result, 2)
+
+    def delete_category(self, category_id, delete_items=False):
+        category = self.session.query(Category).filter_by(owner=self.current_user,
+                                                          id=category_id).first()
+        if not category:
+            raise BodyKeyError("category %s doesn't exist" % category_id)
+        else:
+            if delete_items is not None:
+                for item in category.budgets:
+                    self.session.delete(item)
+            self.session.delete(category)
+
+    def update_budget_plan(self, period, currency, amount):
+        if period in PERIOD_TYPES:
+            self.current_user.period_type = period
+
+        if currency in CURRENCY_TYPES:
+            self.current_user.currency = currency
+
+        self.current_user.period_amount = amount
 
 
 def password_hash(password):

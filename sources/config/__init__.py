@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Copyright © 2018 PocketBudgetTracker. All rights reserved.
+Copyright © 2019 PocketBudgetTracker. All rights reserved.
 Author: Andrey Shelest (khadsl1305@gmail.com)
 
 Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,16 +15,5 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 """
-import logging
 
-from tornado_sqlalchemy import make_session_factory
-from .db_migrate import Migrate
-from .models import BASE_MODEL, CURRENCY_TYPES, PERIOD_TYPES
-from .models.user import User, Token
-from .models.budget import Budget, Category
-
-logger = logging.getLogger('pbt.db')
-
-
-def make_db(db_uri):
-    return make_session_factory(db_uri)
+from .pbtconfig import PbtConfig

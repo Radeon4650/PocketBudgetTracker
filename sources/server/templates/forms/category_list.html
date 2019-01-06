@@ -1,0 +1,19 @@
+<div class="card">
+  <h6 class="card-header">{{ _("Preferred categories") }}</h6>
+  <ul class="list-group list-group-flush">
+    {% for category in current_user.categories %}
+      <li class="list-group-item">
+        {{ category.name }}
+        <button type="button" class="close" aria-label="Close" data-pbt-category-id='{{ category.id }}' data-toggle="modal" data-target="#deleteCategoryDialog">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </li>
+    {% end %}
+    <form action="/category/add?next={{ url_escape(request.uri) }}" method="POST">
+        <div class="input-group p-1">
+          <input name="name" type="text" class="form-control" placeholder='{{ _("category") }}' required>
+          <button type="submit" class="btn btn-success input-group-append">{{ _("Add") }}</button>
+        </div>
+    </form>
+  </ul>
+</div>

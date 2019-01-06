@@ -16,11 +16,15 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-from datetime import date
-from tornado.web import HTTPError, authenticated
+from datetime import date, datetime
+from tornado.web import authenticated
 
+from db import CURRENCY_TYPES, PERIOD_TYPES
 from .base import BaseHandler
 from .errors import SignInError, SignUpError
+
+
+DATE_FORMAT = "%Y-%m-%d"
 
 
 class MainHandler(BaseHandler):
@@ -37,13 +41,51 @@ class BudgetRequestHandler(BaseHandler):
     def get(self, *args, **kwargs):
         self.render("budget.html")
 
+
+class TableRequestHandler(BaseHandler):
+    @authenticated
+    def get(self, *args, **kwargs):
+        category = self.get_category(args[0])
+
+        filter_date = date(int(self.get_argument("year")), int(self.get_argument("month")), 1)
+        items = self.get_category_items(category, filter_date)
+
+        self.render("components/table_body_category.html",
+                    category=category,
+                    category_items=items,
+                    category_total=self.get_category_total(items))
+
     @authenticated
     def post(self, *args, **kwargs):
-        self.add_new_item(category=self.get_argument("category"),
-                          date=date.today(),
+        category = self.get_category(args[0])
+
+        self.add_new_item(category=category,
+                          date=datetime.strptime(self.get_argument("date"), DATE_FORMAT).date(),
                           title=self.get_argument("title"),
                           amount=self.get_argument("amount"),
-                          currency="UAH")
+                          currency="UAH") # TODO: implement
+
+        filter_date = date(int(self.get_argument("year")), int(self.get_argument("month")), 1)
+        items = self.get_category_items(category, filter_date)
+
+        self.render("components/table_body_category.html",
+                    category=category,
+                    category_items=items,
+                    category_total=self.get_category_total(items))
+
+
+class CategoryAddHandler(BaseHandler):
+    @authenticated
+    def post(self, *args, **kwargs):
+        self.add_category(self.get_argument("name"))
+        self.redirect(self.get_argument("next", "/"))
+
+
+class CategoryDeleteHandler(BaseHandler):
+    @authenticated
+    def post(self, *args, **kwargs):
+        self.delete_category(category_id=self.get_argument("id"),
+                             delete_items=self.get_argument("delete_items", default=None))
         self.redirect(self.get_argument("next", "/"))
 
 
@@ -65,16 +107,16 @@ class AuthLoginHandler(BaseHandler):
 
 class AuthCreateHandler(BaseHandler):
     def get(self, *args, **kwargs):
-        self.render("create_user.html")
+        self.render("create_user.html", error=None)
 
     def post(self, *args, **kwargs):
         try:
             self.create_new_user(email=self.get_argument("email"),
                                  password=self.get_argument("password"),
                                  username=self.get_argument("username"))
-            self.redirect(self.get_argument("next", "/"))
+            self.redirect("/settings")
         except SignUpError as e:
-            raise HTTPError(e.code, e.description)
+            self.render("create_user.html", error=e.description)
 
 
 class AuthLogoutHandler(BaseHandler):
@@ -83,10 +125,39 @@ class AuthLogoutHandler(BaseHandler):
         self.redirect(self.get_argument("next", "/"))
 
 
+class SettingsHandler(BaseHandler):
+    @authenticated
+    def get(self, *args, **kwargs):
+        self.render("budget_settings.html",
+                    currency_arr=CURRENCY_TYPES,
+                    periods=PERIOD_TYPES)
+
+    @authenticated
+    def put(self, *args, **kwargs):
+        self.update_budget_plan(period=self.get_argument("period"),
+                                currency=self.get_argument("currency"),
+                                amount=self.get_argument("amount"))
+        self.redirect(self.get_argument("next", "/"))
+
+
+class SettingsPeriodHandler(BaseHandler):
+    @authenticated
+    def post(self, *args, **kwargs):
+        self.update_budget_plan(period=self.get_argument("period"),
+                                currency=self.get_argument("currency"),
+                                amount=self.get_argument("amount"))
+        self.redirect(self.get_argument("next", "/"))
+
+
 web_api_routes = [
     (r'/', MainHandler),
     (r'/budget', BudgetRequestHandler),
+    (r'/ajax/table/(.*)', TableRequestHandler),
+    (r'/category/delete', CategoryDeleteHandler),
+    (r"/category/add", CategoryAddHandler),
     (r"/auth/create", AuthCreateHandler),
     (r"/auth/login", AuthLoginHandler),
     (r"/auth/logout", AuthLogoutHandler),
+    (r"/settings", SettingsHandler),
+    (r"/settings/period", SettingsPeriodHandler),
 ]

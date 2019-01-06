@@ -1,0 +1,70 @@
+<div class="chartbox">
+    <script src="{{ static_url('libs/Chart.js/Chart.js') }}"></script>
+    <canvas id="budgetChart"></canvas>
+    <script type="application/javascript">
+        var ctx = document.getElementById("budgetChart");
+        var data_arr = [
+            {% for category in current_user.categories %}
+            "{{ category.sum() }}",
+            {% end %}
+        ];
+
+        var labels_arr = [
+            {% for category in current_user.categories %}
+            "{{ category.name }}",
+            {% end %}
+        ];
+        // Chart.defaults.global.legend.display = false;
+        // Chart.defaults.global.legend.position = "right";
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels_arr,
+                datasets: [{
+                    label: '# of Categories',
+                    data: data_arr,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)',
+                        'rgba(255, 159, 64, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(255, 159, 64, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+              responsive: true,
+              title: {
+                display: false,
+                position: "top",
+                fontStyle: "bold",
+                fontSize: 0,
+                fullWidth: false,
+                padding: 0
+              },
+              legend: {
+                display: true,
+                position: "right",
+                fullWidth: false,
+                labels: {
+                  display: true,
+                  usePointStyle: true,
+                  fontSize: 15,
+                  fontStyle: "bold"
+                }
+
+              }
+          }
+        });
+    </script>
+</div>

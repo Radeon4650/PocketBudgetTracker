@@ -1,0 +1,23 @@
+<div class="pbt-table-box col-fill col-md-6 p-1"
+    data-pbt-category-id="{{ category.id }}"
+    data-pbt-category-name="{{ category.name }}">
+    <div class="row align-items-center border border-secondary m-0">
+        <button type="button" class="btn btn-link col-2" aria-label="Add"
+         data-toggle="modal" data-target="#addCategoryItemsDialog">
+         <i class="fa fa-plus" aria-hidden="true" ></i>
+        </button>
+        <button type="button" href="#collapse-{{ category.id }}"
+         class="btn btn-light text-center col-6 rounded-0"
+         role="button" data-toggle="collapse"
+         aria-expanded="true" aria-controls="collapse-{{ category.id }}">
+         <h5 class="m-0">{{ category.name }}</h5>
+         </button>
+         <span class="pbt-category-total currency-text col-4 text-info text-right"
+          currency="UAH">
+          <!--  will be loaded  -->
+         </span>
+    </div>
+    <div class="pbt-table-content collapse show" id="collapse-{{ category.id }}" content-status="empty">
+            <!--  will be loaded  -->
+    </div>
+</div>

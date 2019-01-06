@@ -1,0 +1,23 @@
+<table class="pbt-category-table table table-sm table-bordered table-striped text-center w-100"
+        data-pbt-category-total="{{ category_total }}">
+    <thead class="thead-light">
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">{{ _("Date") }}</th>
+            <th scope="col">{{ _("Title") }}</th>
+            <th scope="col">{{ _("Amount") }}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% set i = 1 %}
+        {% for item in category_items %}
+        <tr>
+            <td col-type="num">{{ i }}</td>
+            <td col-type="date">{{ item.date }}</td>
+            <td col-type="title">{{ item.title }}</td>
+            <td col-type="amount" class="text-right" currency={{ item.currency }}>{{ str(item.amount) }}</td>
+        </tr>
+        {% set i += 1 %}
+        {% end %}
+    </tbody>
+</table>

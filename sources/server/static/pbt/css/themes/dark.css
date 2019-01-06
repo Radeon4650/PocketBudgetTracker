@@ -1,0 +1,141 @@
+body {
+    background-color: #282c34;
+}
+
+.appTitle {
+    color: #fff;
+}
+
+.appTitle h2, h4, p {
+    color: #9da5b4;
+}
+
+a {
+    color: #2878de
+}
+
+i {
+  color: white;
+}
+
+label {
+    color: #fff
+}
+
+.panelBox {
+    background-color: rgba(0, 0, 0, .8);
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+}
+
+.errorBox {
+    color: #930104;
+    background-color: #e68080aa;
+    border-color: #930104;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, .5);
+}
+
+.panelBox h3 {
+    color: #fff;
+}
+
+.inputBox label {
+    color: #717172;
+}
+
+.inputBox input,
+.inputBox input:valid {
+    color: #fff;
+    border-bottom: 1px solid #fff;
+}
+
+.inputBox input:focus {
+    border-bottom: 1px solid #03a9f4;
+}
+
+.inputBox input:invalid {
+    border-bottom: 1px solid red;
+}
+
+.inputBox input:focus~label,
+.inputBox input:valid~label {
+    color: #03a9f4;
+}
+
+.inputBox input:-webkit-autofill {
+    -webkit-text-fill-color: yellow !important;
+    -webkit-box-shadow: 0 0 0px 1000px transparent inset;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+input[type="submit"] {
+    color: #fff;
+    background: #03a9f4;
+}
+
+.header {
+    border-bottom: 1px solid #181a1f;
+    background-color: #21252b;
+}
+
+.mainbody .title {
+    color: #fff;
+    border-bottom: 1px solid #6b727e;
+}
+
+.section {
+    border-bottom: 1px solid #6b727e;
+}
+
+.section label {
+    color: #c9c9c9;
+}
+
+.ui_table th {
+    border: 1px solid #6b727e;
+    border-bottom: 1px solid #738eba;
+    color: white;
+}
+
+.ui_table tfoot th {
+    border-top: 1px solid #738eba;
+    border-right: 1px solid #738eba;
+}
+
+.ui_table td {
+    border: 1px solid #6b727e;
+    color: rgb(200, 200, 200);
+}
+
+.ui_table thead th {
+    color: white;
+    background: black;
+    border: 1px solid #738eba;
+}
+
+.ui_table th+td {
+    color: white;
+    background: black;
+    border: 1px solid #738eba;
+}
+
+.ui_table caption {
+    color: white;
+}
+
+.ui_table input[type="submit"] {
+    color: #02f40c;
+}
+.ui_table input[type="submit"]:hover {
+    color: #03a9f4;
+}
+
+.ui_table input {
+    color: white;
+    background-color: #161921;
+    border: 1px solid #03a9f4;
+}
+
+
+.rightBox {
+    color: white;
+}

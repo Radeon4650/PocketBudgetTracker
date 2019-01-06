@@ -32,7 +32,7 @@ class SignUpError(BaseApiError):
 
 
 class SignInError(BaseApiError):
-    def __init__(self, description="login failed"):
+    def __init__(self, description="Incorrect email or password."):
         super(SignInError, self).__init__(action="login_user", code=401, description=description)
 
 

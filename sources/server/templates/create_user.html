@@ -1,11 +1,9 @@
 {% extends "base.html" %}
 
-{% block body %}
-<form action="/auth/create" method="POST">
-  Email: <input name="email" type="text"><br>
-  Name: <input name="username" type="text"><br>
-  Password: <input name="password" type="password"><br>
-  {% module xsrf_form_html() %}
-  <input type="submit">
-</form>
+{% block content %}
+<div class="pbt-new-user-box container" style="width: 40rem;">
+    <h5 class="card-title text-center text-md-left">{{ _("Create new user account") }}</h5>
+    <h6 class="card-subtitle pb-2 mb-2 text-muted text-center text-md-left border-bottom">{{ _("The simplest way to manage your budget.") }}</h6>
+    {% include "forms/new_user.html" %}
+</div>
 {% end %}
