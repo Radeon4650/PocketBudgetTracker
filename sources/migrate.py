@@ -18,9 +18,11 @@ limitations under the License.
 """
 
 import argparse
+import logging
 from db import Migrate
 from config import PbtConfig
 
+logging.getLogger('pbt').setLevel(logging.INFO)
 
 if __name__ == '__main__':
     appConf = PbtConfig()
@@ -33,7 +35,11 @@ if __name__ == '__main__':
         description='Migration migration engine for %(prog)s database')
     subparsers = parser.add_subparsers(title='Commands')
     parser_upgrade = subparsers.add_parser('upgrade', help='Upgrade database to the latest revision')
-    parser_upgrade.set_defaults(cmd=db_migrate.upgrade_head, has_params=False)
+    parser_upgrade.set_defaults(cmd=db_migrate.upgrade, has_params=False)
+
+    parser_downgrade = subparsers.add_parser('downgrade', help='Upgrade database to the needed revision')
+    parser_downgrade.add_argument('params', nargs=1, type=str)
+    parser_downgrade.set_defaults(cmd=db_migrate.downgrade, has_params=True)
 
     parser_info = subparsers.add_parser('info', help='Print current database path and version')
     parser_info.set_defaults(cmd=db_migrate.print_info, has_params=False)

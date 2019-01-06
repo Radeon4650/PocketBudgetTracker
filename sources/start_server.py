@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     # upgrade database to the latest version
     migrate = Migrate(pbt_config.db_path())
-    migrate.upgrade_head()
+    migrate.upgrade()
 
     pbt_server = PBTServer(pbt_config)
     pbt_server.run()

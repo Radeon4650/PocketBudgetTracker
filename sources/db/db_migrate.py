@@ -24,6 +24,7 @@ import alembic.config as aconf
 from alembic import command
 
 logger = logging.getLogger('pbt.migrate')
+
 logging.getLogger('alembic').setLevel(logging.WARNING)
 logging.getLogger('sqlalchemy').setLevel(logging.WARNING)
 
@@ -42,10 +43,13 @@ class Migrate:
         print('DataBase url is {}'.format(self.db_path))
         command.show(self.config, 'current')
 
-    def upgrade_head(self):
-        logger.info('Database upgrade started.')
-        command.upgrade(self.config, 'head')
-        logger.info('Database upgrade finished.')
+    def upgrade(self, revision='head'):
+        logger.info('Database will be upgraded to {} revision.'.format(revision))
+        command.upgrade(self.config, revision)
+
+    def downgrade(self, revision):
+        logger.warning('Database will be downgraded to {} revision.'.format(revision))
+        command.downgrade(self.config, revision)
 
     def commit(self, msg):
         command.revision(self.config, message=msg, autogenerate=True)
