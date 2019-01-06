@@ -26,7 +26,7 @@ from .base import BaseHandler
 from .errors import BaseApiError, BodyKeyError
 
 
-logger = logging.getLogger('rest_api')
+logger = logging.getLogger('pbt.rest')
 
 
 class RestBaseHandler(BaseHandler):

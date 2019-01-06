@@ -2,3 +2,4 @@ sqlalchemy
 alembic
 tornado
 tornado-sqlalchemy
+psycopg2-binary

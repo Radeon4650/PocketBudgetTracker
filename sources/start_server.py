@@ -19,19 +19,24 @@ limitations under the License.
 
 import logging
 
+from db import Migrate
+from config import PbtConfig
 from server import PBTServer
 
-logger = logging.getLogger('start_server')
+logger = logging.getLogger('pbt.main')
 logging.basicConfig(
     format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
     datefmt='%d-%m-%Y:%H:%M:%S',
-    level='INFO')
+    level='INFO'
+)
 
 if __name__ == '__main__':
+    pbt_config = PbtConfig()
+    pbt_config.load()
 
-    pbt_server = PBTServer(
-        ip='127.0.0.1',
-        port=8788,
-        db_path='sqlite:////tmp/pbt_test.db'
-    )
+    # upgrade database to the latest version
+    migrate = Migrate(pbt_config.db_path())
+    migrate.upgrade()
+
+    pbt_server = PBTServer(pbt_config)
     pbt_server.run()
