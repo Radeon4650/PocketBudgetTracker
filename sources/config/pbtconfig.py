@@ -23,8 +23,7 @@ import logging
 from configparser import ConfigParser
 from appdirs import AppDirs
 
-logger = logging.getLogger('config')  # pylint: disable=invalid-name
-logger.setLevel(logging.ERROR)
+logger = logging.getLogger('pbt.config')
 
 CONFIG_NAME = 'pbtconfig.cfg'
 CONFIG_DEFAULT = os.path.join(os.path.dirname(__file__), 'pbt_defaults.cfg')
@@ -37,6 +36,11 @@ class PbtConfig(object):
         self.dirs = AppDirs(self.app_name, self.author)
         self.config_path = os.path.join(self.dirs.user_config_dir, CONFIG_NAME)
         self.config = ConfigParser()
+        self._loaded = False
+
+    @property
+    def is_loaded(self):
+        return self._loaded
 
     def load(self):
         self.config = ConfigParser()
@@ -52,6 +56,8 @@ class PbtConfig(object):
         except:
             logger.error("Couldn't read config from {}".format(self.config_path))
             self.config.read_file(open(CONFIG_DEFAULT, encoding='utf-8'))
+
+        self._loaded = True
 
     def db_path(self):
         path = self.config["DB"]["path"]

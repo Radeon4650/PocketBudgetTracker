@@ -18,11 +18,13 @@ limitations under the License.
 import logging
 
 from tornado_sqlalchemy import make_session_factory
+from .db_migrate import Migrate
 from .models import BASE_MODEL, CURRENCY_TYPES, PERIOD_TYPES
 from .models.user import User, Token
 from .models.budget import Budget, Category
 
-logger = logging.getLogger('server_db')
+logger = logging.getLogger('pbt.db')
+logging.getLogger('sqlalchemy.engine').setLevel(logging.WARNING)
 
 
 def make_db(db_uri):

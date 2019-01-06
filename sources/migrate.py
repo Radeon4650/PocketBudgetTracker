@@ -17,26 +17,44 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
-
-import os
-import sys
-import alembic.config as aconf
+import logging
+import argparse
+from db import Migrate
 from config import PbtConfig
 
-ALEMBIC_CONFIG_PATH = os.path.join(os.path.dirname(__file__), 'alembic.ini')
-
-
-def upgrade(config):
-    run_alembic(config, ['upgrade', 'head'])
-
-
-def run_alembic(config, args=[]):
-    alembic_args = ['-c', ALEMBIC_CONFIG_PATH, '-x', "dbPath={}".format(config.db_path()), '--raiseerr']
-    alembic_args += args
-    aconf.main(alembic_args)
+logging.getLogger('alembic').setLevel(logging.INFO)
+logging.getLogger('sqlalchemy.engine').setLevel(logging.INFO)
 
 
 if __name__ == '__main__':
     appConf = PbtConfig()
     appConf.load()
-    run_alembic(appConf, sys.argv[1:])
+
+    db_migrate = Migrate(appConf.db_path())
+
+    parser = argparse.ArgumentParser(
+        prog=appConf.app_name,
+        description='Migration migration engine for %(prog)s database')
+    subparsers = parser.add_subparsers(title='Commands')
+    parser_upgrade = subparsers.add_parser('upgrade', help='Upgrade database to the latest revision')
+    parser_upgrade.set_defaults(cmd=db_migrate.upgrade_head, has_params=False)
+
+    parser_info = subparsers.add_parser('info', help='Print current database path and version')
+    parser_info.set_defaults(cmd=db_migrate.print_info, has_params=False)
+
+    parser_commit = subparsers.add_parser('commit', help='Commit new database revision')
+    parser_commit.add_argument('params', nargs=1, type=str)
+    parser_commit.set_defaults(cmd=db_migrate.commit, has_params=True)
+
+    args = parser.parse_args()
+
+    try:
+        if args.has_params:
+            args.cmd(*args.params)
+        else:
+            args.cmd()
+    except AttributeError:
+        parser.print_help()
+
+
+

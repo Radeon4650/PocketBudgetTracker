@@ -19,16 +19,24 @@ limitations under the License.
 
 import logging
 
+from db import Migrate
+from config import PbtConfig
 from server import PBTServer
-from migrate import upgrade
 
-logger = logging.getLogger('server')
+logger = logging.getLogger('pbt.main')
 logging.basicConfig(
     format='%(asctime)s.%(msecs)-3d %(levelname)-8s [%(filename)s:%(lineno)d] %(message)s',
     datefmt='%d-%m-%Y:%H:%M:%S',
-    level='INFO')
+    level='INFO'
+)
 
 if __name__ == '__main__':
-    pbt_server = PBTServer()
-    upgrade(pbt_server.config)
+    pbt_config = PbtConfig()
+    pbt_config.load()
+
+    # upgrade database to the latest version
+    migrate = Migrate(pbt_config.db_path())
+    migrate.upgrade_head()
+
+    pbt_server = PBTServer(pbt_config)
     pbt_server.run()

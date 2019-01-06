@@ -1,15 +1,10 @@
 from __future__ import with_statement
 from alembic import context
 from sqlalchemy import create_engine, pool
-from logging.config import fileConfig
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
-
-# Interpret the config file for Python logging.
-# This line sets up loggers basically.
-fileConfig(config.config_file_name)
 
 # add your model's MetaData object here
 # for 'autogenerate' support
@@ -30,7 +25,7 @@ def run_migrations_offline():
 
     """
     context.configure(
-        url=context.get_x_argument(as_dictionary=True).get('dbPath'),
+        url=config.get_main_option('sqlalchemy.url'),
         target_metadata=target_metadata, literal_binds=True, compare_type=True)
 
     with context.begin_transaction():
@@ -44,9 +39,9 @@ def run_migrations_online():
     and associate a connection with the context.
 
     """
-    connectable = create_engine(context.get_x_argument(as_dictionary=True).get('dbPath'),
+    connectable = create_engine(config.get_main_option('sqlalchemy.url'),
                                 encoding='latin1',
-                                echo=True,
+                                echo=False,
                                 poolclass=pool.NullPool)
 
     with connectable.connect() as connection:

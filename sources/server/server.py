@@ -23,11 +23,10 @@ import tornado
 from tornado.web import Application
 
 import db
-from config import PbtConfig
 from .handlers import get_all_routes
 
 # pylint: disable=arguments-differ,abstract-method
-logger = logging.getLogger('server')  # pylint: disable=invalid-name
+logger = logging.getLogger('pbt.server')  # pylint: disable=invalid-name
 logging.getLogger('tornado').setLevel(logging.WARNING)
 
 
@@ -36,11 +35,12 @@ class PBTServer:
     Server
     """
 
-    def __init__(self):
-        self.config = PbtConfig()
-        self.config.load()
+    def __init__(self, config=None):
+        if not config or not config.is_loaded:
+            raise Exception('PbtConfig is invalid or not loaded')
 
-        self._session_factory = db.make_db(self.config.db_path())
+        self._config = config
+        self._session_factory = db.make_db(self._config.db_path())
 
         self._app = Application(get_all_routes(),
                                 session_factory=self._session_factory,
@@ -48,11 +48,11 @@ class PBTServer:
                                 static_path=os.path.join(os.path.dirname(__file__), "static"),
                                 login_url="/auth/login",
                                 cookie_secret="pbt_debug_secret")
-        self._app.listen(self.config.port(), self.config.host())
+        self._app.listen(self._config.port(), self._config.host())
 
     def run(self):
         """
         Start server on a specific ip:port
         """
-        logger.info('The server is listening on http://%s:%d', self.config.host(), self.config.port())
+        logger.info('The server is listening on http://%s:%d', self._config.host(), self._config.port())
         tornado.ioloop.IOLoop.current().start()
